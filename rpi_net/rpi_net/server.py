@@ -53,7 +53,13 @@ class MainServer():
         # set's state changes
         pass
 
-    async def set_state(self, state):
+    async def set_room_state(self, room_state):
+    	'''
+    	sets the state of one specific room
+
+    	Args:
+    	    room_state(dict): state changes for room where one field in the room id
+    	'''
         # set's state changes
         #invoke z_node publish
         pass
