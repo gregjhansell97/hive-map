@@ -3,6 +3,10 @@
 #include <RF24.h>
 #include <ArduinoJson.h>
 
+const byte read_address[3][6] = { "00001", "00003", "00004" };
+const int read_num = 3;
+const byte write_address[6] = "00002";
+
 RF24 radio(7, 8);  
 
 //  radio :  Arduino
@@ -16,11 +20,8 @@ RF24 radio(7, 8);
 //   MISO :  Pin 12
 //   IRQ  :  No Connection
 
-const byte read_address[6][6] = { "00001", "00002", "00003" };
-const int read_num = 3;
-const byte write_address[6] = "00100";
 int input_num = 0;
-char input_json[6][150];
+char input_json[3][256];
 int num = 1;
 
 const size_t capacity = JSON_OBJECT_SIZE(4);
@@ -30,7 +31,7 @@ int noisePin = 5;
 int motionPin = 6;
 
 // const uint8_t* json = "{\"roomID\":23,\"occupied\":1}";
-char this_json[150];
+char this_json[256];
 
 void setup() {
     Serial.begin(9600);
@@ -45,25 +46,25 @@ void setup() {
     //DynamicJsonDocument doc_in(capacity);
 
     doc["roomID"] = 56;
-    doc["occupied"] = 0;
+    doc["occupied"] = 1;
     doc["noise"] = 0;
     doc["motion"] = 0;
 }
 
 void loop() {
-  delay(50);
+  delay(100);
   radio.startListening();
   if(radio.available())
   {
     input_num = 0;
     while(radio.available())
     {
-      radio.read(input_json[input_num++], 150);
+      radio.read(input_json[input_num++], 255);
       if(input_num >= read_num) break;
     }
   }
 
-  delay(50);
+  delay(100);
   radio.stopListening();
   // write info for current arduino
   // write info for other arduinos
