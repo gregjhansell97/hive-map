@@ -10,9 +10,6 @@ class MainServer():
     """
     Simple HTTP Server to handle information requests from the frontend
     """
-
-    state = {}
-
     def __init__(self, host="127.0.0.0", port="8080", loop=None):
         """
         Creates the Main Server that collects updates from zmq task and handles
@@ -24,6 +21,34 @@ class MainServer():
         self.host = host
         self.port = port
         self.loop = loop
+        self.state = {
+            'floors': {
+                1: {
+                    'dim': {
+                        'x': 100,
+                        'y': 100
+                    }
+                }
+            },
+            'rooms': {
+                1: {
+                    'static_props': {
+                        'loc': {
+                            'x': 10,
+                            'y': 10,
+                            'floor': 1
+                        },
+                        'dim': {
+                            'x': 10,
+                            'y': 10
+                        }
+                    },
+                    'dynamic_props': {
+                        'occupied': True
+                    }
+                }
+            }
+        }
 
     def setup(self):
         """
@@ -48,21 +73,24 @@ class MainServer():
         self.app["tasks"] = {}
 
         print("Web Server: Setup")
+        self.add_async_task("r_node", self.r_node.run_stubbed)
+        self.add_async_task("z_node", self.z_node.run)
 
     async def sync_states(self, new_state):
         # set's state changes
         pass
 
     async def set_room_state(self, room_state):
-    	'''
-    	sets the state of one specific room
+        '''
+        sets the state of one specific room
 
-    	Args:
-    	    room_state(dict): state changes for room where one field in the room id
-    	'''
-        # set's state changes
-        #invoke z_node publish
-        pass
+        Args:
+            room_state(dict): state changes for room where one field in the room id
+        '''
+        room_id = room_state.keys()[0]
+        self.state["rooms"][room_id]["dynamic_props"] = room_state[room_id]["dynamic_props"]
+        # invoke z_node publish
+
 
     async def send_full_map(self, request):
         """

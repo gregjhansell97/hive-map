@@ -1,6 +1,5 @@
 import asyncio
-from server import *
-from messaging import *
+from server import MainServer
 
 def main():
     """
@@ -9,13 +8,13 @@ def main():
     loop = asyncio.get_event_loop()
 
     # Start the aiohttp server
-
-    # Start the message passing task
+    main_server = MainServer(loop=loop)
+    main_server.setup()
 
     # Run Forever
     try:
         print("Completed all startup tasks")
-        loop.run_forever()
+        main_server.run()
     except KeyboardInterrupt as e:
         print("Recieved an interrupt")
         loop.run_until_complete(loop.shutdown_asyncgens())

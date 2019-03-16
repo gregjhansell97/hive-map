@@ -1,6 +1,7 @@
 import asyncio
 
 import random
+from random import randint
 
 class RadioNode():
     def __init__(self, main_server):
@@ -16,5 +17,9 @@ class RadioNode():
     	while True:
     		await asyncio.sleep(1)
     		randint(1, 100)
-    		fakeState = {"roomID" : randint(1, 5), "occupied" : randint(0,1)}
-    		self.main_server.set_room_state(fakeState)
+    		fakeState = {randint(1,5): {
+                "dynamic_props":{
+                    "occupied" : randint(0,1)}
+                }
+            }
+    		await self.main_server.set_room_state(fakeState)

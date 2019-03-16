@@ -2,6 +2,8 @@
 Determine top level imports
 
 """
-__all__ = [
+from run import main as run
 
+__all__ = [
+    run
 ]
