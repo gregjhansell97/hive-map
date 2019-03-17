@@ -33,7 +33,6 @@ def _deep_merge(master:dict, new_entry:dict):
                     master[key].append(item)
     return master
 
-
 class MainServer():
     """
     Simple HTTP Server to handle information requests from the frontend
@@ -58,6 +57,7 @@ class MainServer():
             with open(os.path.join(CONFIG_PATH, fname), "r") as f:
                 conf = json.load(f)
                 self.config = _deep_merge(self.config, conf)
+        self.config["floors"] = sorted(self.config["floors"], key=lambda kv: kv["name"])
         self.state = self.config['rooms']
 
     def setup(self):
