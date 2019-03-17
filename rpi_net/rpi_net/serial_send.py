@@ -15,7 +15,7 @@ for p in ports:
 		ser = serial.Serial(p.device, 9600)
 		break
 if ser == None:
-	raise exception("No Arduino found!")
+	raise Exception("No Arduino found!")
 
 while True:
     print(ser.readline())
