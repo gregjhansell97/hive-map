@@ -1,0 +1,217 @@
+
+{
+    "floors": [
+        {
+            "name": "First Floor",
+            "dim": {
+                "x": 30,
+                "y": 20
+            }
+        },
+        {
+            "name": "Second Floor",
+            "dim": {
+                "x": 30,
+                "y": 20
+            }
+        },
+        {
+            "name": "Third Floor",
+            "dim": {
+                "x": 30,
+                "y": 20
+            }
+        }
+    ],
+    "rooms": [
+       {
+          "name":"room_1",
+          "static_props":{
+             "loc":{
+                "x":2,
+                "y":3,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":5,
+                "y":5
+             }
+          },
+          "dynamic_props":{
+             "occupied":false
+          }
+       },
+       {
+          "name":"room_2",
+          "static_props":{
+             "loc":{
+                "x":2,
+                "y":8,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":5,
+                "y":4
+            },
+            "handicap accessible": false
+          },
+          "dynamic_props":{
+             "occupied":true
+          }
+       },
+       {
+          "name":"room_3",
+          "static_props":{
+             "loc":{
+                "x":2,
+                "y":12,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":5,
+                "y":3
+             }
+          },
+          "dynamic_props":{
+             "occupied":true,
+             "quiet": false
+          }
+       },
+       {
+          "name":"room_4",
+          "static_props":{
+             "loc":{
+                "x":2,
+                "y":15,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":5,
+                "y":4
+             }
+          },
+          "dynamic_props":{
+             "occupied":true
+          }
+       },
+       {
+          "name":"room_5",
+          "static_props":{
+             "loc":{
+                "x":7,
+                "y":17,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":8,
+                "y":2
+             }
+          },
+          "dynamic_props":{
+             "occupied":true
+          }
+       },
+       {
+          "name":"room_6",
+          "static_props":{
+             "loc":{
+                "x":7,
+                "y":3,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":7,
+                "y":2
+             }
+          },
+          "dynamic_props":{
+             "occupied":true
+          }
+       },
+       {
+          "name":"room_7",
+          "static_props":{
+             "loc":{
+                "x":14,
+                "y":3,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":6,
+                "y":2
+             }
+          },
+          "dynamic_props":{
+             "occupied":true
+          }
+       },
+       {
+          "name":"room_8",
+          "static_props":{
+             "loc":{
+                "x":20,
+                "y":3,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":6,
+                "y":4
+             }
+          },
+          "dynamic_props":{
+             "occupied":true
+          }
+       },
+       {
+          "name":"room_9",
+          "static_props":{
+             "loc":{
+                "x":23,
+                "y":7,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":3,
+                "y":5
+             }
+          },
+          "dynamic_props":{
+             "occupied":true
+          }
+       },
+       {
+          "name":"room_10",
+          "static_props":{
+             "loc":{
+                "x":23,
+                "y":12,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":3,
+                "y":5
+             }
+          },
+          "dynamic_props":{
+             "occupied":true
+          }
+       },
+       {
+          "name":"room_11",
+          "static_props":{
+             "loc":{
+                "x":19,
+                "y":17,
+                "floor":"First Floor"
+             },
+             "dim":{
+                "x":7,
+                "y":2
+             }
+          },
+          "dynamic_props":{
+             "occupied":true
+          }
+       }
+    ]
+}
