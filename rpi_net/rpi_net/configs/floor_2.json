@@ -1,0 +1,222 @@
+{
+    "floors": [
+        {
+            "name": "Floor 2",
+            "dim": {
+                "x": 30,
+                "y": 20
+            }
+        }
+    ],
+    "rooms": [
+        {
+            "name":"Room 1",
+            "static_props":{
+                "loc":{
+                    "x":2,
+                    "y":3,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":5,
+                    "y":5
+                },
+                "handicap accessible" : 1
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        },
+        {
+            "name":"Room 2",
+            "static_props":{
+                "loc":{
+                    "x":2,
+                    "y":8,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":5,
+                    "y":4
+                },
+                "handicap accessible" : 0
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        },
+        {
+            "name":"Room 3",
+            "static_props":{
+                "loc":{
+                    "x":2,
+                    "y":12,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":5,
+                    "y":3
+                },
+                "handicap accessible" : 0
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        },
+        {
+            "name":"Room 4",
+            "static_props":{
+                "loc":{
+                    "x":2,
+                    "y":15,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":5,
+                    "y":4
+                },
+                "handicap accessible" : 1
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        },
+        {
+            "name":"Room 5",
+            "static_props":{
+                "loc":{
+                    "x":7,
+                    "y":17,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":8,
+                    "y":2
+                },
+                "handicap accessible" : 0
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        },
+        {
+            "name":"Room 6",
+                "static_props":{
+                "loc":{
+                    "x":7,
+                    "y":3,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":7,
+                    "y":2
+                },
+                "handicap accessible" : 0
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        },
+        {
+            "name":"Room 7",
+                "static_props":{
+                    "loc":{
+                        "x":14,
+                        "y":3,
+                        "floor":"Floor 2"
+                    },
+                    "dim":{
+                        "x":6,
+                        "y":2
+                    },
+                    "handicap accessible" : 1
+                },
+                "dynamic_props":{
+                    "occupied":1,
+                    "quiet":1
+                }
+        },
+        {
+            "name":"Room 8",
+            "static_props":{
+                "loc":{
+                    "x":20,
+                    "y":3,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":6,
+                    "y":4
+                },
+                "handicap accessible" : 1
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        },
+        {
+            "name":"Room 9",
+            "static_props":{
+                "loc":{
+                    "x":23,
+                    "y":7,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":3,
+                    "y":5
+                },
+                "handicap accessible" : 0
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        },
+            {
+            "name":"Room 10",
+                "static_props":{
+                "loc":{
+                    "x":23,
+                    "y":12,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":3,
+                    "y":5
+                },
+                "handicap accessible" : 0
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        },
+        {
+        "name":"Room 11",
+            "static_props":{
+                "loc":{
+                    "x":19,
+                    "y":17,
+                    "floor":"Floor 2"
+                },
+                "dim":{
+                    "x":7,
+                    "y":2
+                },
+                "handicap accessible" : 0
+            },
+            "dynamic_props":{
+                "occupied":1,
+                "quiet":1
+            }
+        }
+    ]
+}
