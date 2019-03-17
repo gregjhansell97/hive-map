@@ -13,7 +13,7 @@ class MainServer():
     """
     Simple HTTP Server to handle information requests from the frontend
     """
-    def __init__(self, host="127.0.0.0", port="8080", loop=None):
+    def __init__(self, host="*", port="8080", loop=None):
         """
         Creates the Main Server that collects updates from zmq task and handles
         http GET requests.
