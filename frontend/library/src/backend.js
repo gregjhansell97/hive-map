@@ -14,12 +14,11 @@ export default {
         const host = hosts[Math.floor(Math.random()*hosts.length)];
         axios.get("http://" + host + "/full_update") //it /hivemap/rpi/get_map
         .then(response => {
-            console.log(response.data);
             store.dispatch(setMap(response.data));
         })
         .catch(error => {
             console.log("HERE :(")
-            store.dispatch(setMap(data));
+            //store.dispatch(setMap(data));
             /*store.dispatch(setMap({
                 floors: [
                     {
