@@ -1,4 +1,5 @@
 import json
+import os
 
 from pprint import pprint
 
@@ -8,11 +9,34 @@ from aiohttp import web
 from radio_node import RadioNode
 from zmq_node import ZMQNode
 
+CONFIG_PATH = os.path.join(os.path.split(__file__)[0], "configs")
+
+def _deep_merge(master:dict, new_entry:dict):
+    """
+    Performs a deep merge until a List is reached. Then all items are added
+
+    Args:
+        master: Master configuration dictionary to add to
+        new_entry: New configuration to add
+
+    """
+    for key in new_entry:
+        # 'Merges' to add new fields
+        if key not in master:
+            master[key] = new_entry[key]
+        else:
+            if isinstance(new_entry[key], dict):
+                _deep_merge(master[key], new_entry[key])
+            elif isinstance(new_entry[key], list):
+                for item in new_entry[key]:
+                    master[key].append(item)
+    return master
+
 
 class MainServer():
     """
     Simple HTTP Server to handle information requests from the frontend
-    
+
     """
     def __init__(self, host:str="*", port:str="8080", loop=None):
         """
@@ -28,9 +52,12 @@ class MainServer():
         self.host = host
         self.port = port
         self.loop = loop
-        with open("./config.json", "r") as f:
-            self.config = json.load(f)
-        self.state = self.config['state']
+        self.config = {}
+        for fname in os.listdir(CONFIG_PATH):
+            with open(os.path.join(CONFIG_PATH, fname), "r") as f:
+                conf = json.load(f)
+                self.config = _deep_merge(self.config, conf)
+        self.state = self.config['rooms']
 
     def setup(self):
         """

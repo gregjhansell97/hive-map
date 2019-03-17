@@ -1,0 +1,35 @@
+{
+    "subscribers":
+    [
+        {
+            "ip": "*",
+            "port": "5500"
+        },
+        {
+            "ip": "*",
+            "port": "5501"
+        },
+        {
+            "ip": "*",
+            "port": "5502"
+        }
+    ],
+    "subscriptions":
+    [
+        {
+            "ip": "localhost",
+            "port": "5500",
+            "topics": []
+        },
+        {
+            "ip": "localhost",
+            "port": "5501",
+            "topics": []
+        },
+        {
+            "ip": "localhost",
+            "port": "5502",
+            "topics": []
+        }
+    ]
+}
