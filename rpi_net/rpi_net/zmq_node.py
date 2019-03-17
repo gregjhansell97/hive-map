@@ -37,7 +37,7 @@ class ZMQNode():
         Task that handles Pi-Layer updates over ZMQ and state synchronization
         """
         while True:
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0)
             # See if any sockets have anything
             try:
                 socks, events = self.poller.poll(1000)
@@ -59,4 +59,4 @@ class ZMQNode():
         """
         for sock in self.subscribers:
             sock.send_json(self.main_server.state)
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0)
