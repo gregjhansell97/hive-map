@@ -40,26 +40,27 @@ class RadioNode():
         to a single room's state. This in turn triggers Pi-Layer Syncronization
         """
         while True:
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0)
 
             if self.ser is not None:
                 line = self.ser.readline()
                 # Creates an update to the state if room update has a valid format
                 try:
                     room_update = json.loads(line)
-                    room_id = room_update['r']
+                    room_id = f"Room {room_update['r']}"
+                    floor_name = self.main_server.config["floors"][0]["name"]
                     # Build out the state update
                     state = {
                         room_id: {
                             "dynamic_props": {}
                         }
                     }
+
                     for key in self.json_map:
                         if key in room_update:
-                            state[room_id][dynamic_props][self.json_map[key]] = room_update[key]
-
-                    await self.main_server.set_room_state(state)
-                except (AttributeError, KeyError, UnicodeDecodeError, json.decoder.JSONDecodeError):
+                            state[room_id]["dynamic_props"][self.json_map[key]] = room_update[key]
+                    await self.main_server.set_room_state("Floor 1", state)
+                except (AttributeError, KeyError, UnicodeDecodeError, json.decoder.JSONDecodeError) as e:
                     pass
 
 
@@ -68,7 +69,7 @@ class RadioNode():
         Task alternative to actual hardware updates from the A-Layer
         """
         while True:
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0)
             # Randomly selects a floor and then a room on that floor to change the state of
             # Seems messy, but this flow would never normally exist beyond demos
             floor_select = randint(1, len(self.main_server.config["floors"])-1)
