@@ -3,7 +3,6 @@ from pprint import pprint
 
 import asyncio
 import zmq
-import zmq.asyncio as zmqio
 
 class ZMQNode():
     """
@@ -16,6 +15,7 @@ class ZMQNode():
         self.poller = zmq.Poller()
 
         ctx = zmq.Context()
+
         # Iterate over all subscriptions to get data from
         for subscription in main_server.config["subscriptions"]:
             s = ctx.socket(zmq.SUB)
@@ -24,7 +24,7 @@ class ZMQNode():
 
             # TODO: Add in support for topical filtering
             # if not subscription["topics"]:
-            #     s.setsockopt_string(zmq.SUBSCRIBE, "")
+            s.setsockopt_string(zmq.SUBSCRIBE, "")
             # else:
             #     for t in subscription["topics"]:
             #         s.setsockopt_string(zmq.SUBSCRIBE, t)
@@ -32,7 +32,7 @@ class ZMQNode():
         # Iterate over all subscribers to publish data too
         for subscriber in main_server.config["subscribers"]:
             s = ctx.socket(zmq.PUB)
-            s.connect(f"tcp://{subscriber['ip']}:{subscriber['port']}")
+            s.bind(f"tcp://{subscriber['ip']}:{subscriber['port']}")
             self.subscribers.append(s)
 
         for sock in chain(self.subscribers, self.subscriptions):
@@ -47,7 +47,7 @@ class ZMQNode():
                 for sock, event in zip(socks,events):
                     if sock in self.subscriptions:
                         states = sock.recv_json()
-                        self.main_server.sync_states(states)
+                        await self.main_server.sync_states(states)
 
             # Nothing to report sir
             except ValueError:
@@ -60,10 +60,6 @@ class ZMQNode():
         """
         Publishes updates the A-Layer to the rest of the Wifi-Layer
         """
-        await asyncio.sleep(0.1)
-        print(self.subscribers)
         for sock in self.subscribers:
-            print('try')
             sock.send_json(self.main_server.state)
             await asyncio.sleep(0.1)
-            print("send")

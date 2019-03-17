@@ -51,7 +51,7 @@ class MainServer():
         self.app["tasks"] = {}
 
         # Add background tasks to listen for state updates
-        self.add_async_task("r_node", self.r_node.run)
+        self.add_async_task("r_node", self.r_node.run_stubbed)
         self.add_async_task("z_node", self.z_node.run)
 
         print("Web Server: Setup")
@@ -74,15 +74,15 @@ class MainServer():
         '''
         room_id = list(room_state.keys())[0]
         for i,room in enumerate(self.state["rooms"]):
-            if room["name"] == room_id:
+            if int(room["name"]) == room_id:
                 self.state["rooms"][i]["dynamic_props"] = room_state[room_id]["dynamic_props"]
-        await self.z_node.publish()
+                await self.z_node.publish()
 
     async def route_full_map(self, request):
         """
         Sends the full hivemap to the frontend
         """
-        return web.Response(text=json.dumps(state))
+        return web.Response(text=json.dumps(self.state))
 
     def add_async_task(self, name, fn, kwargs={}):
         """

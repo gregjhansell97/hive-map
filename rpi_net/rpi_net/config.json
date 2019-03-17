@@ -47,15 +47,15 @@
 "subscribers":
     [
         {
-            "ip": "localhost",
+            "ip": "*",
             "port": "5500"
         },
         {
-            "ip": "localhost",
+            "ip": "*",
             "port": "5501"
         },
         {
-            "ip": "localhost",
+            "ip": "*",
             "port": "5502"
         }
     ]
@@ -64,17 +64,17 @@
     [
         {
             "ip": "localhost",
-            "port": "5600",
+            "port": "5500",
             "topics": []
         },
         {
             "ip": "localhost",
-            "port": "5601",
+            "port": "5501",
             "topics": []
         },
         {
             "ip": "localhost",
-            "port": "5602",
+            "port": "5502",
             "topics": []
         }
     ]
