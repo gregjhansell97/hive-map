@@ -1,33 +1,49 @@
 {
 "state": {
-    "floors": {
-        "1": {
-            "dim": {
-                "x": "100",
-                "y": "100"
-            }
-        }
-    },
-    "rooms": {
-        "1": {
-            "static_props": {
-                "loc": {
-                    "x": "10",
-                    "y": "10",
-                    "floor": "1"
-                },
+    "floors":
+        [
+            {
+                "name": "1",
                 "dim": {
-                    "x": "10",
-                    "y": "10"
+                    "x": "100",
+                    "y": "100"
                 }
             },
-            "dynamic_props": {
-                "occupied": "true"
+            {
+                "name": "2",
+                "dim": {
+                    "x": "100",
+                    "y": "100"
+                }
+            },
+            {
+                "name": "3",
+                "dim": {
+                    "x": "100",
+                    "y": "100"
+                }
             }
-        }
-    }
-}
-,
+        ],
+        "rooms": [
+            {
+                "name": "23" ,
+                "static_props": {
+                    "loc": {
+                        "x": "10",
+                        "y": "10",
+                        "floor": "1"
+                    },
+                    "dim": {
+                        "x": "10",
+                        "y": "10"
+                    }
+                },
+                "dynamic_props": {
+                    "occupied": "true"
+                }
+            }
+        ]
+    },
 "subscribers":
     [
         {

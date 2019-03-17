@@ -73,9 +73,10 @@ class MainServer():
             room_state(dict): state changes for room where one field in the room id
         '''
         room_id = list(room_state.keys())[0]
-        self.state["rooms"][room_id]["dynamic_props"] = room_state[room_id]["dynamic_props"]
+        for i,room in enumerate(self.state["rooms"]):
+            if room["name"] == room_id:
+                self.state["rooms"][i]["dynamic_props"] = room_state[room_id]["dynamic_props"]
         await self.z_node.publish()
-
 
     async def route_full_map(self, request):
         """

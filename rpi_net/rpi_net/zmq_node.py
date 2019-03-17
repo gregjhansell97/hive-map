@@ -20,16 +20,20 @@ class ZMQNode():
         for subscription in main_server.config["subscriptions"]:
             s = ctx.socket(zmq.SUB)
             s.connect(f"tcp://{subscription['ip']}:{subscription['port']}")
-            if not subscription["topics"]:
-                s.setsockopt_string(zmq.SUBSCRIBE, "")
-            else:
-                for t in subscription["topics"]:
-                    s.setsockopt_string(zmq.SUBSCRIBE, t)
+            self.subscriptions.append(s)
+
+            # TODO: Add in support for topical filtering
+            # if not subscription["topics"]:
+            #     s.setsockopt_string(zmq.SUBSCRIBE, "")
+            # else:
+            #     for t in subscription["topics"]:
+            #         s.setsockopt_string(zmq.SUBSCRIBE, t)
 
         # Iterate over all subscribers to publish data too
         for subscriber in main_server.config["subscribers"]:
             s = ctx.socket(zmq.PUB)
             s.connect(f"tcp://{subscriber['ip']}:{subscriber['port']}")
+            self.subscribers.append(s)
 
         for sock in chain(self.subscribers, self.subscriptions):
             self.poller.register(sock, zmq.POLLIN)
@@ -57,6 +61,10 @@ class ZMQNode():
         """
         Publishes updates the A-Layer to the rest of the Wifi-Layer
         """
+        await asyncio.sleep(0.1)
+        print(self.subscribers)
         for sock in self.subscribers:
+            print('try')
             sock.send_json(self.main_server.state)
             await asyncio.sleep(0.1)
+            print("send")

@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 from random import randint
 
@@ -13,30 +14,37 @@ class RadioNode():
             "c" : "occupied",
             "n" : "noiseLevel"
         }
+        self.connect_serial()
+
+    def connect_serial(self):
+        '''
+        Attempts to make a serial connection to an arduino with a radio comm unit
+        '''
+        ports = list(list_ports.comports())
+        self.ser = None
+        # Searches for Arduino name on Windows Systems
+        for p in ports:
+            if "Arduino" in p.description:
+                self.ser = serial.Serial(p.device, 9600)
+                break
+        # Probably not connected or it's running a real OS
+        if self.ser is None:
+            if ports:
+                self.ser = serial.Serial(ports[0].device, 9600)
 
     async def run(self):
         while True:
             await asyncio.sleep(0.1)
 
-            ports = list(list_ports.comports())
-            ser = None
-            for p in ports:
-                if "Arduino" in p.description:
-                    ser = serial.Serial(p.device, 9600)
-                    break
-            if ser == None:
-                if ports:
-                    ser == serial.Serial(ports[0].device, 9600)
-            if ser is not None:
-                A_layer_json = ser.readline()
-                print(A_layer_json)
-                if "r" in A_layer_json.keys():
+            if self.ser is not None:
+                line = self.ser.readline()
+                try:
+                    A_layer_json = json.loads(line)
                     dynamic_props = {}
 
                     for A_layer_keyname in self.json_map.keys():
                         if A_layer_keyname in A_layer_json.keys():
                             dynamic_props[self.json_map[A_layer_keyname]] = A_layer_json[A_layer_keyname]
-
                     state = {
                             A_layer_json['r']:
                                 {
@@ -44,7 +52,8 @@ class RadioNode():
                                 }
                         }
                     await self.main_server.set_room_state(state)
-
+                except (AttributeError, KeyError, UnicodeDecodeError, json.decoder.JSONDecodeError):
+                    pass
 
 
     async def run_stubbed(self):
