@@ -38,13 +38,12 @@ class ZMQNode():
         for sock in chain(self.subscribers, self.subscriptions):
             self.poller.register(sock, zmq.POLLIN)
 
-
     async def run(self):
         while True:
             await asyncio.sleep(0.1)
             # See if any sockets have anything
             try:
-                socks, events = self.poller.poll()
+                socks, events = self.poller.poll(1000)
                 for sock, event in zip(socks,events):
                     if sock in self.subscriptions:
                         states = sock.recv_json()
