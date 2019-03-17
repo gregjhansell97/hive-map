@@ -13,7 +13,6 @@ class ZMQNode():
         self.main_server = main_server
         self.subscribers = []
         self.subscriptions = []
-        self.topics = []
         self.poller = zmq.Poller()
 
         ctx = zmq.Context()
@@ -21,10 +20,10 @@ class ZMQNode():
         for subscription in main_server.config["subscriptions"]:
             s = ctx.socket(zmq.SUB)
             s.connect(f"tcp://{subscription['ip']}:{subscription['port']}")
-            if not self.topics:
+            if not subscription["topics"]:
                 s.setsockopt_string(zmq.SUBSCRIBE, "")
             else:
-                for t in self.topics:
+                for t in subscription["topics"]:
                     s.setsockopt_string(zmq.SUBSCRIBE, t)
 
         # Iterate over all subscribers to publish data too

@@ -32,15 +32,15 @@
     [
         {
             "ip": "localhost",
-            "port": "5657"
+            "port": "5500"
         },
         {
             "ip": "localhost",
-            "port": "5658"
+            "port": "5501"
         },
         {
             "ip": "localhost",
-            "port": "5659"
+            "port": "5502"
         }
     ]
 ,
@@ -48,15 +48,18 @@
     [
         {
             "ip": "localhost",
-            "port": "5557"
+            "port": "5600",
+            "topics": []
         },
         {
             "ip": "localhost",
-            "port": "5558"
+            "port": "5601",
+            "topics": []
         },
         {
             "ip": "localhost",
-            "port": "5559"
+            "port": "5602",
+            "topics": []
         }
     ]
 }
