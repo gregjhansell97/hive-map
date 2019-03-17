@@ -37,7 +37,7 @@ class ZMQNode():
 
     async def run(self):
         while True:
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
             # See if any sockets have anything
             try:
                 socks, events = self.poller.poll()
@@ -45,7 +45,6 @@ class ZMQNode():
                     if sock in self.subscriptions:
                         states = sock.recv_json()
                         self.main_server.sync_states(states)
-                    # Do something with subscribers
 
             # Nothing to report sir
             except ValueError:
@@ -53,3 +52,11 @@ class ZMQNode():
             # Exiting
             except KeyboardInterrupt:
                 break
+
+    async def publish(self):
+        """
+        Publishes updates the A-Layer to the rest of the Wifi-Layer
+        """
+        for sock in self.subscribers:
+            sock.send_json(self.main_server.state)
+            await asyncio.sleep(0.1)
