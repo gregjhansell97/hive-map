@@ -59,7 +59,7 @@ class RadioNode():
     async def run_stubbed(self):
         while True:
             await asyncio.sleep(0.1)
-            fakeState = {randint(1,5): {
+            fakeState = {23: {
                 "dynamic_props":{
                     "occupied" : randint(0,1)}
                 }
