@@ -124,7 +124,7 @@ class MainServer():
             request: Typically a dictionary containing request parameters
 
         """
-        return web.Response(text=json.dumps({**self.state, **self.config["floors"]}))
+        return web.Response(text=json.dumps({"rooms": self.state, "floors": self.config["floors"]}))
 
     def add_async_task(self, name:str, coro, kwargs:dict={}):
         """
