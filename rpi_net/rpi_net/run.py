@@ -1,6 +1,9 @@
 import asyncio
 from server import MainServer
 
+import signal
+signal.signal(signal.SIGINT, signal.SIG_DFL)
+
 def main():
     """
     Creates the Event Loop, Start the Server and Messaging Networks, and runs forver
