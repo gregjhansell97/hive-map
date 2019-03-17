@@ -74,9 +74,7 @@ class MainServer():
         '''
         room_id = list(room_state.keys())[0]
         self.state["rooms"][room_id]["dynamic_props"] = room_state[room_id]["dynamic_props"]
-        # from pprint import pprint
-        # pprint(self.state["rooms"])
-        # invoke z_node publish
+        await self.z_node.publish()
 
 
     async def route_full_map(self, request):

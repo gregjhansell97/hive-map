@@ -13,7 +13,7 @@ class RadioNode():
 
     async def run(self):
         while True:
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
             # Listens for updates on radio
             # self.main_server.set_room_state(states)
 
@@ -38,7 +38,7 @@ class RadioNode():
 
     async def run_stubbed(self):
     	while True:
-    		await asyncio.sleep(1)
+    		await asyncio.sleep(0.1)
     		fakeState = {randint(1,5): {
                 "dynamic_props":{
                     "occupied" : randint(0,1)}
