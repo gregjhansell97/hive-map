@@ -14,7 +14,7 @@ class RadioNode():
         self.main_server = main_server
         self.json_map = {
             "c" : "occupied",
-            "n" : "noiseLevel"
+            "n" : "quiet"
         }
         self.connect_serial()
 
@@ -69,9 +69,21 @@ class RadioNode():
         """
         while True:
             await asyncio.sleep(0.1)
-            fakeState = {23: {
-                "dynamic_props":{
-                    "occupied" : randint(0,1)}
+            # Randomly selects a floor and then a room on that floor to change the state of
+            # Seems messy, but this flow would never normally exist beyond demos
+            floor_select = randint(1, len(self.main_server.config["floors"])-1)
+            floor_name = self.main_server.config["floors"][floor_select]["name"]
+            max_room = 0
+            for room in self.main_server.config["rooms"]:
+                if room["static_props"]["loc"]["floor"] == floor_name:
+                    max_room += 1
+            fakeState = {
+                f"Room {randint(1, max_room)}": {
+                    "dynamic_props":{
+                        "occupied": randint(0,1),
+                        "quiet": randint(0,1)
+
+                    }
                 }
             }
-            await self.main_server.set_room_state(fakeState)
+            await self.main_server.set_room_state(floor_name, fakeState)

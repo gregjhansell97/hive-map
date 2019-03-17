@@ -24,6 +24,7 @@ def _deep_merge(master:dict, new_entry:dict):
         # 'Merges' to add new fields
         if key not in master:
             master[key] = new_entry[key]
+        # Actual merges between dictionaries
         else:
             if isinstance(new_entry[key], dict):
                 _deep_merge(master[key], new_entry[key])
@@ -83,7 +84,8 @@ class MainServer():
         self.app["tasks"] = {}
 
         # Add background tasks to listen for state updates
-        self.add_async_task("r_node", self.r_node.run_stubbed)
+        self.add_async_task("r_node_simulated", self.r_node.run_stubbed)
+        self.add_async_task("r_node_real", self.r_node.run)
         self.add_async_task("z_node", self.z_node.run)
 
         print("Web Server: Setup")
@@ -98,18 +100,20 @@ class MainServer():
         """
         self.state = new_state
 
-    async def set_room_state(self, room_state:str):
+    async def set_room_state(self, floor_name:str, room_state:str):
         '''
         sets the state of one specific room
 
         Args:
+            floor_name: name of the floor to make sure that duplicate room names
+                between floors, buildings, etc don't interfere with each other
             room_state: state changes for room where one field in the room id
 
         '''
         room_id = list(room_state.keys())[0]
-        for i,room in enumerate(self.state["rooms"]):
-            if int(room["name"]) == room_id:
-                self.state["rooms"][i]["dynamic_props"] = room_state[room_id]["dynamic_props"]
+        for i,room in enumerate(self.state):
+            if room["name"] == room_id and room["static_props"]["loc"]["floor"] == floor_name:
+                self.state[i]["dynamic_props"] = room_state[room_id]["dynamic_props"]
                 await self.z_node.publish()
 
     async def route_full_map(self, request):
@@ -120,7 +124,7 @@ class MainServer():
             request: Typically a dictionary containing request parameters
 
         """
-        return web.Response(text=json.dumps(self.state))
+        return web.Response(text=json.dumps({**self.state, **self.config["floors"]}))
 
     def add_async_task(self, name:str, coro, kwargs:dict={}):
         """
