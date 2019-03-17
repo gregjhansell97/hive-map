@@ -1,0 +1,62 @@
+{
+"state": {
+    "floors": {
+        "1": {
+            "dim": {
+                "x": "100",
+                "y": "100"
+            }
+        }
+    },
+    "rooms": {
+        "1": {
+            "static_props": {
+                "loc": {
+                    "x": "10",
+                    "y": "10",
+                    "floor": "1"
+                },
+                "dim": {
+                    "x": "10",
+                    "y": "10"
+                }
+            },
+            "dynamic_props": {
+                "occupied": "true"
+            }
+        }
+    }
+}
+,
+"subscribers":
+    [
+        {
+            "ip": "localhost",
+            "port": "5657"
+        },
+        {
+            "ip": "localhost",
+            "port": "5658"
+        },
+        {
+            "ip": "localhost",
+            "port": "5659"
+        }
+    ]
+,
+"subscriptions":
+    [
+        {
+            "ip": "localhost",
+            "port": "5557"
+        },
+        {
+            "ip": "localhost",
+            "port": "5558"
+        },
+        {
+            "ip": "localhost",
+            "port": "5559"
+        }
+    ]
+}
