@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import SvgIcon from '@material-ui/core/SvgIcon';
 import { withStyles } from '@material-ui/core/styles';
 
 //inhouse
@@ -14,6 +15,7 @@ import FloorsNav from './floors_nav/FloorsNav.js';
 import RoomTable from './room_table/RoomTable.js';
 import RoomFilter from './room_filter/RoomFilter.js';
 import Rooms from './rooms/Rooms.js';
+
 
 //styles
 const styles = theme => ({

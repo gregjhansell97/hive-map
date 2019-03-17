@@ -12,8 +12,9 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
     button: {
         textTransform: "none",
+        fontFamily: "arial",
         width: "100%",
-        fontSize: "30px",
+        fontSize: "32px",
         marginTop:3
     }
 })

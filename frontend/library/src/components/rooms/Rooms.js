@@ -73,16 +73,16 @@ class Rooms extends React.Component {
 
 
             //decide on color
-            context.fillStyle = "#43A047"; //greeen
+            context.fillStyle = "#388E3C"; //greeen
             let makeRed = filter["occupied"] && r.dynamic_props.occupied;
             makeRed = makeRed || filter["handicap accessible"] && "handicap accessible" in r.static_props && !r.static_props["handicap accessible"]
             makeRed = makeRed || filter["quiet"] && "quiet" in r.dynamic_props && !r.dynamic_props["quiet"]
             if(makeRed) {
-                context.fillStyle = "#EF5350";
+                context.fillStyle = "#E53935";
             }
 
             context.fillRect(rect_x, rect_y, rect_width, rect_height)
-            context.font="30px Georgia";
+            context.font="35px Arial";
             context.textAlign="center";
             context.textBaseline = "middle";
             context.fillStyle = "#FFFFFF";

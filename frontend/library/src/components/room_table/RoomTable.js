@@ -23,7 +23,7 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    width: "100%",
+    width: "90%",
   },
 });
 
@@ -56,13 +56,13 @@ class RoomTable extends React.Component {
 
 
         return (
-            <div className={classes.root}>
+            <div>
             <AppBar
                 position="static"
                 color="primary">
             <Toolbar>
                 <Typography
-                    variant="h6"
+                    variant="h4"
                     color="inherit">
                     Status
                 </Typography>
@@ -72,8 +72,20 @@ class RoomTable extends React.Component {
             <TableBody>
                 {Object.entries(room_fields).map(([f, v], index) => (
                     <TableRow key={index}>
-                        <TableCell>{f}</TableCell>
-                        <TableCell>{v}</TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="h6"
+                                color="primary">
+                                {f}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="h6"
+                                color="default">
+                                {v}
+                            </Typography>
+                        </TableCell>
                     </TableRow>
                 ))}
               </TableBody>

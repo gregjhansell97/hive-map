@@ -37,7 +37,7 @@ class RoomFilter extends React.Component {
                 color="primary">
                 <Toolbar>
                     <Typography
-                        variant="h6"
+                        variant="h4"
                         color="inherit">
                         Filters
                     </Typography>
@@ -66,7 +66,13 @@ class RoomFilter extends React.Component {
                                 }
                             </div>
                         }
-                        label={k}
+                        label={
+                            <Typography
+                                variant="h6"
+                                color="default">
+                                {k}
+                            </Typography>
+                        }
                     />
                 )}
             </FormGroup>

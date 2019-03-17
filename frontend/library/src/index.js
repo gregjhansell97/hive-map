@@ -5,6 +5,9 @@ import {
     Provider
 } from 'react-redux';
 
+//material-ui
+import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
 //inhouse
 import * as serviceWorker from './serviceWorker.js';
 import backend from './backend.js'
@@ -20,13 +23,24 @@ function mapStateToProps(state, props) {
     }
 }
 
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#e53935",
+            dark: "#e53935"
+
+        }
+    }
+})
+
 const ConnectedRoot = connect(mapStateToProps)(Root);
 
 ReactDOM.render(
-    <Provider store={store}>
-        <ConnectedRoot />
-    </Provider>, document.getElementById('root'));
-
+    <MuiThemeProvider theme={theme}>
+        <Provider store={store}>
+            <ConnectedRoot />
+        </Provider>
+    </MuiThemeProvider>, document.getElementById('root'));
 setInterval(()=>backend.refreshMap(), 1000);
 
 // If you want your app to work offline and load faster, you can change
