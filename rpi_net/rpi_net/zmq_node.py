@@ -16,29 +16,26 @@ class ZMQNode():
 
         ctx = zmq.Context()
 
-        # Iterate over all subscriptions to get data from
+        # Iterate over all subscriptions to get data from - Add to Poller
         for subscription in main_server.config["subscriptions"]:
             s = ctx.socket(zmq.SUB)
+            s.setsockopt_string(zmq.SUBSCRIBE, "")
             s.connect(f"tcp://{subscription['ip']}:{subscription['port']}")
             self.subscriptions.append(s)
+            self.poller.register(s, zmq.POLLIN)
 
-            # TODO: Add in support for topical filtering
-            # if not subscription["topics"]:
-            s.setsockopt_string(zmq.SUBSCRIBE, "")
-            # else:
-            #     for t in subscription["topics"]:
-            #         s.setsockopt_string(zmq.SUBSCRIBE, t)
-
-        # Iterate over all subscribers to publish data too
+        # Iterate over all subscribers to publish data too - Add to Poller
         for subscriber in main_server.config["subscribers"]:
             s = ctx.socket(zmq.PUB)
             s.bind(f"tcp://{subscriber['ip']}:{subscriber['port']}")
             self.subscribers.append(s)
+            self.poller.register(s, zmq.POLLIN)
 
-        for sock in chain(self.subscribers, self.subscriptions):
-            self.poller.register(sock, zmq.POLLIN)
 
     async def run(self):
+        """
+        Task that handles Pi-Layer updates over ZMQ and state synchronization
+        """
         while True:
             await asyncio.sleep(0.1)
             # See if any sockets have anything
@@ -49,7 +46,7 @@ class ZMQNode():
                         states = sock.recv_json()
                         await self.main_server.sync_states(states)
 
-            # Nothing to report sir
+            # Nothing to report - Poller did not find any sockets with updates
             except ValueError:
                 pass
             # Exiting

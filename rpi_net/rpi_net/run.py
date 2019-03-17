@@ -4,13 +4,11 @@ from server import MainServer
 def main():
     """
     Creates the Event Loop, Start the Server and Messaging Networks, and runs forver
+    
     """
     loop = asyncio.get_event_loop()
-
-    # Start the aiohttp server
     main_server = MainServer(loop=loop)
     main_server.setup()
-
     # Run Forever
     try:
         print("Completed all startup tasks")

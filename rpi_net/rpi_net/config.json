@@ -39,7 +39,7 @@
                     }
                 },
                 "dynamic_props": {
-                    "occupied": "true"
+                    "occupied": "1"
                 }
             }
         ]
