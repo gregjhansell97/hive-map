@@ -1,10 +1,5 @@
 
 import asyncio
-from collections import namedtuple
-import serial
-from serial.tools import list_ports
-import struct
-
 import random
 
 from computer_node.comms.abstract_comm import AbstractComm
@@ -22,14 +17,13 @@ class SimulatedComm(AbstractComm):
         Injects messages into message queue so there are messages available
         """
         while True:
-            await asyncio.sleep(0.5) #picks a random node to send message
+            await asyncio.sleep(1) #picks a random node to send message
             try:
                 if self.node_ids:
                     msg = HiveMsg(
                         node_id=random.choice(self.node_ids),
                         level=1,
-                        is_occupied=random.choice([True, False]),
-                        self.timestamp = datetime.datetime.now().timestamp()
+                        is_occupied=random.choice([True, False])
                     )
                     await self.add_msg(msg)
             except KeyboardInterrupt:

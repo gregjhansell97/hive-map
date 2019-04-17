@@ -15,47 +15,46 @@ class ZMQComm(AbstractComm):
 
     def __init__(
         self,
-        subscribers=[],
-        subscriptions=[]):
+        host="127.0.0.1",
+        port=5000,
+        neighbors=[]):
 
         super().__init__()
-        self.subscribers = subscribers
-        self.subscriptions = subscriptions
+
+        self.context = zmq.Context()
+
+        self.publisher = self.context.socket(zmq.PUB)
+        self.publisher.bind(f"tcp://{host}:{port}")
+
+        self.neighbors = []
+
         self.poller = zmq.Poller()
+        for n in neighbors:
+            self.add_neighbor(**n)
 
-        context = zmq.Context()
-
-        # sets up subscriptions and adds them to the poller
-        for ip, port in self.subscriptions:
-            s = context.socket(zmq.SUB)
-            s.setsockopt_string(smq.SUBSCRIBE, "")
-            s.connect(f"tcp://{ip}:{port}")
-            self.poller.register(s, zmq.POLLIN)
-
-        # sets up subscribers and adds them to the poller
-        for ip, port in self.subscribers:
-            s = context.socket(zmq.PUB)
-            s.connect(f"tcp://{ip}:{port}")
-            self.poller.register(s, zmq.POLLIN) # should this be here?
+    def add_neighbor(self, host="127.0.0.1", port=5000):
+        nbr = self.context.socket(zmq.SUB)
+        nbr.setsockopt_string(zmq.SUBSCRIBE, "")
+        nbr.connect(f"tcp://{host}:{port}")
+        self.neighbors.append(nbr)
+        self.poller.register(nbr, zmq.POLLIN)
 
     async def listen(self):
         """
         Task that listens for zmq messages from subscriptions
         """
         while True:
-            await asyncio.sleep(1) # allow other tasks to run
-
+            await asyncio.sleep(0) # allow other tasks to run
             try:
                 # poll for 1 second and collect all messages
-                socks, events = self.poller.poll(1000)
-                for s, e in zip(socks, events):
-                    if s in self.subscriptions:
-                        msg = s.recv_pyobj()
+                for nbr in self.neighbors:
+                    await asyncio.sleep(0)
+                    try:
+                        msg = nbr.recv_pyobj(flags=zmq.NOBLOCK)
+                        print(msg)
                         await self.add_msg(msg)
-            except ValueError:
-                pass
-            except zmq.ZMQError:
-                print("ZMQ ERROR")
+                    except zmq.ZMQError:
+                        pass
             except KeyboardInterrupt:
                 # exits on ctrl-c
                 return
@@ -67,7 +66,11 @@ class ZMQComm(AbstractComm):
         Args:
             msg(dict): dictionary of message
         """
-        print(msg)
-        for s in self.subscribers:
-            s.send(msg)
-            await asyncio.sleep(0) # allow other tasks to run
+        #print(msg)
+        #print(self.publishers)
+        #print("publishing")
+        try:
+            self.publisher.send_pyobj(msg)
+        except zmq.ZMQError:
+            print("ZMQ Error")
+        await asyncio.sleep(0) # allow other tasks to run
