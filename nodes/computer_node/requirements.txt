@@ -1,0 +1,4 @@
+aiohttp
+aiohttp_cors
+pyserial
+pyzmq
