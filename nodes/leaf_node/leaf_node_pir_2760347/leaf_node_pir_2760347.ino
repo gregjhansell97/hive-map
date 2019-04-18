@@ -6,7 +6,7 @@
 #define CSN_PIN 8
 #define CE_PIN 7
 
-#define NODE_ID 2
+#define NODE_ID 5
 #define PARENT_NODE_ID 3
 
 #define PIR_PIN 2
@@ -52,7 +52,8 @@ void setup() {
 
   radio.begin();
   radio.openWritingPipe(leaf_channel); // write proximity when appropriate
-  radio.setPALevel(RF24_PA_MIN);
+  radio.setAutoAck(false);
+  radio.setPALevel(RF24_PA_HIGH);
   radio.stopListening();
 }
 
@@ -62,7 +63,7 @@ void setup() {
 ISR(TIMER1_COMPA_vect)
 {
   TCNT1 = 34286; // timer duration
-  publish_leaf_msg_flag = timer%25 == 0;
+  publish_leaf_msg_flag = timer%4 == 0;
   ++timer;
 }
 
@@ -72,6 +73,7 @@ void publish_leaf_msg() {
   msg.node_id = NODE_ID;
   msg.parent_node_id = PARENT_NODE_ID;
   msg.motion_detected = motion_count > 0;
+  radio.write(&msg, sizeof(LeafMsg));
   radio.write(&msg, sizeof(LeafMsg));
   publish_leaf_msg_flag = false;
 }

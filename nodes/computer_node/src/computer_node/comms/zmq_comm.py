@@ -51,7 +51,6 @@ class ZMQComm(AbstractComm):
                     await asyncio.sleep(0)
                     try:
                         msg = nbr.recv_pyobj(flags=zmq.NOBLOCK)
-                        print(msg)
                         await self.add_msg(msg)
                     except zmq.ZMQError:
                         pass

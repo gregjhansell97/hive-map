@@ -44,6 +44,10 @@ class SerialComm(AbstractComm):
         if self.radio_comm_unit is None and ports:
             device = ports[0].device
             self.radio_comm_unit = serial.Serial(device, self.baud_rate)
+        if self.radio_comm_unit:
+            print("computer proxy node connected")
+        else:
+            print("computer proxy node not connected")
 
     async def listen(self):
         """

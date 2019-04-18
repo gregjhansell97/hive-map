@@ -9,14 +9,17 @@
 #define MSG_BUFFER_SIZE 5
 #define MAX_NEIGHBORS 10
 #define NODE_ID 1
+#define MAX_AGE 2
 
 struct Neighbor {
   Neighbor():
       node_id(-1),
       distance(0),
+      age(0),
       msg_buffer{0, 0, 0, 0, 0}{}
   uint32_t node_id; // the node id of the neighbor
   byte distance; // distance away from neighbor
+  byte age; // how old the neighbor is (older the less likely to exist/have a strong signal)
   byte msg_buffer[MSG_BUFFER_SIZE]; // ring buffer of most recently recieved messages
 };
 
@@ -58,6 +61,7 @@ void setup_neighbors() {
   for(uint32_t i = 0; i < MAX_NEIGHBORS; ++i) {
     neighbors[i].node_id = -1; //max value reserved for unkown nodes
     neighbors[i].distance = 0;
+    neighbors[i].age = MAX_AGE;
     for(byte j = 0; j < MSG_BUFFER_SIZE; ++j) {
       neighbors[i].msg_buffer[j] = 0;
     }
@@ -72,6 +76,7 @@ void setup() {
   radio.begin();
   radio.openWritingPipe(routing_channel); // write proximity when appropriate
   radio.openReadingPipe(0, routing_channel); // listens on routing channel
+  radio.setAutoAck(false);
   radio.setPALevel(RF24_PA_MIN);
   radio.startListening();
 }
@@ -97,6 +102,11 @@ void publish_proximity() {
   radio.write(&msg, sizeof(msg));
   radio.startListening(); // remember to start listening
   publish_proximity_flag = false; // resets flag (if true)
+
+  RoutingMsg r_msg;
+  r_msg.node_id = 12;
+  r_msg.distance = 33;
+  r_msg.is_occupied = false;
 }
 
 /**
@@ -158,13 +168,14 @@ void handle_routing_msg(void* raw_msg) {
   //THIS PART IS DISTINCTION BETWEEN COMPUTER PROXY AND ROUTING NODE
   //COMPUTER PROXY WRITES MESSAGE SERIALLY WHILE ROUTING NODE SENDS IT
   //OUT IF IT HAS ANYONE CLOSER THAT IS LISTENING
-  Serial.println("Routing Message Recieved");
-  Serial.print("  node_id: ");
-  Serial.println(msg->node_id);
-  Serial.print("  is_occupied: ");
-  Serial.println(msg->is_occupied);
-  Serial.print("  message number: ");
-  Serial.println(msg->msg_number);
+  Serial.write((byte*)msg, sizeof(RoutingMsg));
+//  Serial.println("Routing Message Recieved");
+//  Serial.print("  node_id: ");
+//  Serial.println(msg->node_id);
+//  Serial.print("  is_occupied: ");
+//  Serial.println(msg->is_occupied);
+//  Serial.print("  message number: ");
+//  Serial.println(msg->msg_number);
 }
 
 /**
@@ -175,14 +186,29 @@ void handle_routing_msg(void* raw_msg) {
  */
 void handle_proximity_msg(void* raw_msg) {
   ProximityMsg* msg = (ProximityMsg*)raw_msg;
-  Neighbor*nbr = get_neighbor(msg->node_id);
+  Neighbor* nbr = get_neighbor(msg->node_id);
 
   if(nbr == NULL) return;
+  nbr->age = 0;
   nbr->distance = msg->distance; 
+}
+
+void increment_ages() {
+  for(uint32_t i = 0; i < MAX_NEIGHBORS; ++i) {
+    if(neighbors[i].node_id == i) {
+      ++neighbors[i].age;
+
+      //too old, remove from connection list
+      if(neighbors[i].age > MAX_AGE) {
+        neighbors[i].node_id = -1; //remove from known addresses
+      }
+    }
+  }
 }
 
 void loop(){
   if(publish_proximity_flag) {
+    increment_ages();
     publish_proximity();
     //print_neighbor_table();
   }

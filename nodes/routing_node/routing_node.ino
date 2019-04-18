@@ -8,15 +8,18 @@
 
 #define MSG_BUFFER_SIZE 5
 #define MAX_NEIGHBORS 10
-#define NODE_ID 3
+#define NODE_ID 2
+#define MAX_AGE 2
 
 struct Neighbor {
   Neighbor():
       node_id(-1),
       distance(0),
+      age(0),
       msg_buffer{0, 0, 0, 0, 0}{}
   uint32_t node_id; // the node id of the neighbor
   byte distance; // distance away from neighbor
+  byte age; // how old the neighbor is (older the less likely to exist/have a strong signal)
   byte msg_buffer[MSG_BUFFER_SIZE]; // ring buffer of most recently recieved messages
 };
 
@@ -77,6 +80,7 @@ void setup() {
   radio.openWritingPipe(routing_channel); // write proximity when appropriate
   radio.openReadingPipe(0, routing_channel); // listens on routing channel
   radio.openReadingPipe(1, leaf_channel); //listens on leaf channel for data
+  radio.setAutoAck(false);
   radio.setPALevel(RF24_PA_MIN);
   radio.startListening();
 }
@@ -198,16 +202,35 @@ void handle_proximity_msg(void* raw_msg) {
   Neighbor*nbr = get_neighbor(msg->node_id);
 
   if(nbr == NULL) return;
-  if(nbr->distance != -1) {
-    if(nbr->distance + 1 < distance) distance = nbr->distance + 1;
-  }
+  
+  nbr->age = 0;
   nbr->distance = msg->distance; 
+}
+
+void increment_ages() {
+  distance = -1; //largest distance can be
+  for(uint32_t i = 0; i < MAX_NEIGHBORS; ++i) {
+    if(neighbors[i].node_id == i) {
+      ++neighbors[i].age;
+
+      //too old, remove from connection list
+      if(neighbors[i].age > MAX_AGE) {
+        neighbors[i].node_id = -1; //remove from known addresses
+      }
+      if(neighbors[i].node_id != -1) {
+        if(neighbors[i].distance != (byte)(-1)) {
+          if(neighbors[i].distance + 1 < distance) distance = neighbors[i].distance + 1;
+        }
+      }
+    }
+  }
 }
 
 void loop(){
   if(publish_proximity_flag) {
+    increment_ages();
     publish_proximity();
-    //print_neighbor_table();
+    // print_neighbor_table();
   }
   if(radio.available()) {
     Msg raw_msg;
@@ -229,6 +252,8 @@ void loop(){
 
 // DEBUGGING FUNCTIONS
 void print_neighbor_table() {
+  Serial.print("Distance: ");
+  Serial.println(distance);
   Serial.println("Neighbors: ");
   for(uint32_t  i = 0; i < MAX_NEIGHBORS; ++i) {
     if(neighbors[i].node_id == i) {

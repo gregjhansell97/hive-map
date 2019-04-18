@@ -13,7 +13,7 @@ class HiveMsg:
         is_occupied(bool): whether or not node is detecting occupancy
         timestamp(int): when the message was created
     """
-    format = "@IB?"
+    format = "=BI?BB"
     def __init__(
         self,
         raw_msg=None,
@@ -25,9 +25,8 @@ class HiveMsg:
             raw_msg(str): byte string that gets initialized to a node message
         """
         if raw_msg is not None:
-            node_id, level, is_occupied = HiveMsg.unpack(raw_msg)
+            type, node_id, is_occupied, msg_number, distance = HiveMsg.unpack(raw_msg)
         self.node_id = node_id
-        self.level = level
         self.is_occupied = is_occupied
         self.timestamp = datetime.datetime.now().timestamp()
 
@@ -63,7 +62,7 @@ class HiveMap:
         """
         #TODO: add decorator to do this
         while True:
-            await asyncio.sleep(1) #looks for messages every second
+            await asyncio.sleep(0.3) #looks for messages every second
             try:
                 # collects all the messages and puts them in a list called msgs
                 msgs = []
