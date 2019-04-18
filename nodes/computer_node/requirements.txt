@@ -1,3 +1,4 @@
+PyScaffold==3.1
 aiohttp==3.5.4
 aiohttp-cors==0.7.0
 async-timeout==3.0.1
