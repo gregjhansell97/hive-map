@@ -1,31 +1,31 @@
+# -*- coding: utf-8 -*-
+"""
+This module provide classes that help support a distributed state across
+comm lines
+"""
 
+# external modules
 import asyncio
 import datetime
 import struct
 
 class HiveMsg:
     """
-    Standard message recieved and sent by the node
+    Standard message recieved and sent by the HiveMap class
 
     Attributes:
-        node_id(integer): id of sender
-        level(integer): level of sender in node hierarchy
+        node_id(int): id of sender
         is_occupied(bool): whether or not node is detecting occupancy
         timestamp(int): when the message was created
+        format(str): class variable specifying struct-parse style of message
     """
+
     format = "=BI?BB"
+
     def __init__(
         self,
-        raw_msg=None,
-        node_id=None,
-        level=None,
-        is_occupied=None):
-        """
-        Args:
-            raw_msg(str): byte string that gets initialized to a node message
-        """
-        if raw_msg is not None:
-            type, node_id, is_occupied, msg_number, distance = HiveMsg.unpack(raw_msg)
+        node_id:int=None,
+        is_occupied:bool=None):
         self.node_id = node_id
         self.is_occupied = is_occupied
         self.timestamp = datetime.datetime.now().timestamp()
@@ -34,35 +34,55 @@ class HiveMsg:
         return f"{self.node_id}: {self.is_occupied}, {self.timestamp}"
 
     @classmethod
-    def unpack(class_, msg):
-        return struct.unpack(class_.format, msg)
+    def load(class_, raw_msg:str):
+        """
+        returns an instance of HiveMsg given raw bytes
+
+        Args:
+            raw_msg(str): raw bytes that still need to be parsed
+
+        Returns:
+            (HiveMsg): hive message instance based on raw bytes loaded
+        """
+        data = struct.unpack(class_.format, raw_msg)
+        type, node_id, is_occupied, msg_number, distance = data
+        return class_(
+            node_id=node_id,
+            is_occupied=is_occupied
+        )
 
     @classmethod
     def size(class_):
+        """
+        Returns:
+            (int): the size of raw messages
+        """
         return struct.calcsize(class_.format)
 
 
 class HiveMap:
     """
-    Keeps track of the state based on comm line messages
+    Distributed state that changes based on messages it recieves on
+    communication lines, an state change gets re-added to the communication line
 
     Attributes:
-        state(dict): the state of all the subnodes
+        state(dict): the state of all the subnodes (ex: rooms, parking spots)
         comm_lines([AbstractComm]): list of comm lines that the node obtains and
             sends messages with
     """
-    def __init__(self, comm_lines=[]):
+    def __init__(self, comm_lines:list=[]):
+        # initially empty state, may want to "pull" information off comm lines
         self.state = {}
         self.comm_lines = comm_lines
 
     async def spin(self):
         """
-        gets messages from the comm_lines and updates the state accordingly, it
-        then publishes all the messages that caused a change in state
+        Collects a list of HiveMsgs from all communication lines and updates the
+        state accordingly, it then publishes all the messages that caused a
+        change in state
         """
-        #TODO: add decorator to do this
         while True:
-            await asyncio.sleep(0.3) #looks for messages every second
+            await asyncio.sleep(0.3) # looks for messages every second
             try:
                 # collects all the messages and puts them in a list called msgs
                 msgs = []
@@ -74,7 +94,7 @@ class HiveMap:
 
                 # goes through messages from oldest to newest
                 for m in msgs:
-                    # node id doesn't exist, create it
+                    # node id doesn't exist in state, create it
                     if m.node_id not in self.state:
                         self.state[m.node_id] = {
                             "timestamp": 0
@@ -91,7 +111,7 @@ class HiveMap:
                 # exits on ctrl-c
                 return
 
-    async def publish(self, msg):
+    async def publish(self, msg:HiveMsg):
         """
         Publishes a message to all the comm lines available
 

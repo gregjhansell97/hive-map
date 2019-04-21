@@ -1,24 +1,33 @@
+# -*- coding: utf-8 -*-
 
+# external modules
 import asyncio
 import zmq
 
+# internal modules
 from computer_node.comms.abstract_comm import AbstractComm
-
-
 
 class ZMQComm(AbstractComm):
     """
     Communication line that handles pub-sub communication offered by zmq
 
     Attributes:
+        context(zmq.Context): zmq context used to create sockets
+        self.publisher(zmq.Socket): publisher in zmq pub-sub network
+        self.neighbors([zmq.Socket]): list of zmq pub-sub subscriptions
     """
 
     def __init__(
         self,
-        host="127.0.0.1",
-        port=5000,
-        neighbors=[]):
-
+        host:str="127.0.0.1",
+        port:int=5000,
+        neighbors:list=[]):
+        """
+        Args:
+            host(str): host name of this comm line
+            port(int): port of this comm line
+            neighbors([dict]): host and ports of neighboring comm lines
+        """
         super().__init__()
 
         self.context = zmq.Context()
@@ -27,8 +36,6 @@ class ZMQComm(AbstractComm):
         self.publisher.bind(f"tcp://{host}:{port}")
 
         self.neighbors = []
-
-        self.poller = zmq.Poller()
         for n in neighbors:
             self.add_neighbor(**n)
 
@@ -37,7 +44,6 @@ class ZMQComm(AbstractComm):
         nbr.setsockopt_string(zmq.SUBSCRIBE, "")
         nbr.connect(f"tcp://{host}:{port}")
         self.neighbors.append(nbr)
-        self.poller.register(nbr, zmq.POLLIN)
 
     async def listen(self):
         """
@@ -46,14 +52,14 @@ class ZMQComm(AbstractComm):
         while True:
             await asyncio.sleep(0) # allow other tasks to run
             try:
-                # poll for 1 second and collect all messages
                 for nbr in self.neighbors:
                     await asyncio.sleep(0)
                     try:
+                        # non bloccking recieve
                         msg = nbr.recv_pyobj(flags=zmq.NOBLOCK)
                         await self.add_msg(msg)
                     except zmq.ZMQError:
-                        pass
+                        pass # no message recieved
             except KeyboardInterrupt:
                 # exits on ctrl-c
                 return
@@ -63,11 +69,8 @@ class ZMQComm(AbstractComm):
         Publishes messages out to all subscribers
 
         Args:
-            msg(dict): dictionary of message
+            msg(HiveMsg): message to be published on address
         """
-        #print(msg)
-        #print(self.publishers)
-        #print("publishing")
         try:
             self.publisher.send_pyobj(msg)
         except zmq.ZMQError:

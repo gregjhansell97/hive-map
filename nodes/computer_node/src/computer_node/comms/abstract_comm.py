@@ -1,12 +1,18 @@
+# -*- coding: utf-8 -*-
+
+# external modules
 from abc import ABC, abstractmethod
 import asyncio
 
 class AbstractComm(ABC):
     """
-    The base class that handles communication lines
+    The base class that represents the over arching behavior of all
+    communication lines. A communication line recieves HiveMsgs and puts them
+    on a buffer until get_msgs dumps them (this is done with hive_map). These
+    communication lines can also send messages
 
     Attributes:
-        msg_queue([str]): queue of messages that were recieved
+        msg_queue([str]): queue of messages recieved after last get_msgs
         lock(asyncio.Lock): used when modifiying the message_queue
     """
 
@@ -30,7 +36,7 @@ class AbstractComm(ABC):
 
     async def add_msg(self, msg:str):
         """
-        Atomic means to add message to the message queue
+        Atomic method that adds messages to the message queue
 
         Args:
             msg(str): bytes of the message being added
@@ -46,11 +52,11 @@ class AbstractComm(ABC):
         pass
 
     @abstractmethod
-    async def publish(self, msg:str):
+    async def publish(self, msg):
         """
         Publishes information based on message
 
         Args:
-            msg(str): byte string message that needs to be published
+            msg(HiveMsg): Hive message that is being sent out
         """
         pass
