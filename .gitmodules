@@ -1,0 +1,3 @@
+[submodule "hardware-nodes"]
+	path = hardware-nodes
+	url = https://github.com/gregjhansell97/hardware-nodes.git
