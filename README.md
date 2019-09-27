@@ -43,5 +43,5 @@ an intermediate node that propogates its state to other locations.
 
 ## Libraries
 [C](https://github.com/gregjhansell97/hive-map-c/)  
-[python3](https://github.com/gregjhansell97/hive-map-python-3/)
+[Python3](https://github.com/gregjhansell97/hive-map-python-3/)
   
