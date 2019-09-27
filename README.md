@@ -37,9 +37,7 @@ area.
 
 |Term    |Explanation                                                          |
 |--------|---------------------------------------------------------------------|
-|Node    |An entity sampling a location. A node can be represented by software
-          used on everything from microcontrollers with sensor information, 
-          to python scripts running on computers                               |
+|Node    |An entity sampling a location. A node can be represented by software used on everything from microcontrollers with sensor information, to python scripts running on computers                               |
 |Space   |Dimensions used to measure a nodes surroundings                      |
 |State   |Specific values of the Space that the Node has measured              |
 |Channels|Communication links between nodes                                    |
