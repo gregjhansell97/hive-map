@@ -40,4 +40,8 @@ an intermediate node that propogates its state to other locations.
 |Space   |Dimensions used to measure a nodes surroundings                      |
 |State   |Specific values of the Space that the Node has measured              |
 |Channels|Communication links between nodes                                    |
+
+## Libraries
+[C](https://github.com/gregjhansell97/hive-map-c/)  
+[python3](https://github.com/gregjhansell97/hive-map-python-3/)
   
