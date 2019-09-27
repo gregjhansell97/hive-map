@@ -1,23 +1,46 @@
-# hive-map
+# Hive-Map
 
-API that makes retrieving live sensor data from a map simple. Hardware is
-abstracted so you can focus on the software.
-
+Distributed state communication library
 
 ## Description
 
-The hive_map module is used to help alleviate data retrevial in a distributed 
-sensor network. The hive_map module handles the middle ground between the 
-software and hardware. 
+Locations have attributes. For example: various points on a car engine have 
+different temperatures; a room in the library is either occupied or unoccupied; 
+a garbage can on the side of the road has various trash levels. These
+attributes change over time: a car warming up on a cold day, a person entering
+an empty study room, garbage being emptied on a monday morning. These changes
+often go unnoticed, but they are the key to solving many problems: what part of
+your engine broke? What rooms are available to study in? Did we miss the garbage
+truck? The goal of Hive-Map is to provide the framework needed to tackle these
+problems.
 
-The software developer defines a state and location based on metrics provided 
-by the hive_map module. Metrics, from the hive_map module, are used so the 
-developer doesn't have to worry about serialization to the hardware.
+**Hive-map gets changes in attribute information from one location to another.**
 
-The hive-map module is only one part of the HiveMap ecosystem. There are 
-hardware modules too. These hardware modules communicate information from
-sensors and neighboring modules serially to a developers module which then
-decides its current state based on information provided. 
+In the world of hive-map, a **node** is an entity sampling a location. The 
+**space** of a node is the dimensions measured. The **state** of a node
+is the current space values measured. For example, a node in "room 3" of the 
+library has a space of occupancy which can either measure "True" or "False". The 
+"room 3" node has a state of "True" because there is a student in the room. The 
+node's state becomes "False" when the student leaves. The "room 3" node needs to
+get the updated state to a location that can publish the information to a
+database. Neighboring nodes (in other rooms) have the same objective.
+**Neighboring nodes with matching goal locations can work together to get their
+updated states to that location** 
 
-## Installation Instructions
-Doesn't work yet lol
+The user of the framework describes how individual nodes should behave: their
+space, location, goal location, communication means, and callbacks. Hive-Map 
+handles routing state changes to that goal location. Keep in mind that goal
+locations can be intermediate nodes that consolodate information from a whole
+area.
+
+## Terminology
+
+|Term    |Explanation                                                          |
+|--------|---------------------------------------------------------------------|
+|Node    |An entity sampling a location. A node can be represented by software
+          used on everything from microcontrollers with sensor information, 
+          to python scripts running on computers                               |
+|Space   |Dimensions used to measure a nodes surroundings                      |
+|State   |Specific values of the Space that the Node has measured              |
+|Channels|Communication links between nodes                                    |
+  
