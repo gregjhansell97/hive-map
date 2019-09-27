@@ -30,7 +30,7 @@ states to that location**
 The user of the framework describes how individual nodes should behave: their
 space, location, goal location, communication means, and callbacks. Hive-Map 
 handles routing state changes to that goal location. The goal location can be 
-an intermediate nodes that propogates its state to other locations.
+an intermediate node that propogates its state to other locations.
 
 ## Terminology
 
