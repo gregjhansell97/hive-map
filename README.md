@@ -32,6 +32,10 @@ space, location, goal location, communication means, and callbacks. Hive-Map
 handles routing state changes to that goal location. The goal location can be 
 an intermediate node that propogates its state to other locations.
 
+## Goal
+
+A library that performs distributed routing of states for a set of uniquely characterized nodes
+
 ## Terminology
 
 |Term    |Explanation                                                          |
@@ -41,8 +45,12 @@ an intermediate node that propogates its state to other locations.
 |State   |Specific values of the Space that the Node has measured              |
 |Channels|Communication links between nodes                                    |
 
+
+
 ## Libraries
 [C](https://github.com/gregjhansell97/hive-map-c/)  
+
 [Python3](https://github.com/gregjhansell97/hive-map-python-3/)
+
 [Cpp](https://github.com/gregjhansell97/hive-map-cpp/)  
   
