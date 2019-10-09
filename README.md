@@ -36,16 +36,32 @@ an intermediate node that propogates its state to other locations.
 
 A library that performs distributed routing of states for a set of uniquely characterized nodes
 
-## Terminology
+## Components
 
-|Term    |Explanation                                                          |
-|--------|---------------------------------------------------------------------|
-|Node    |An entity sampling a location. A node can be represented by software used on everything from microcontrollers with sensor information, to python scripts running on computers                     |
-|Space   |Dimensions used to measure a nodes surroundings                      |
-|State   |Specific values of the Space that the Node has measured              |
-|Channels|Communication links between nodes                                    |
+### Node
+An entity sampling a location. A node has several attributes: location, goal location, 
+communication channels and a state. Location is the place the node resides. Goal location is
+the place a node wishes to send all of it's state changes to. A node sends a state change to a
+location, not another node. Communication channels are used by a node to interact with other nodes.
+State is the measurements of the node's space.
+ 
+#### Assumptions
+- node locations are abstract
+- node's location is fixed or anonymous
+- node's goal location is fixed, anonymous or doesn't exist
+- nodes only communicate through channels
+- nodes in the same location have dependable FIFO channels of communication
+- nodes do not crash
+- new nodes can be introduced into the system
 
+### Space
+Dimensions used to measure a nodes surroundings
 
+### State
+Specific values of the Space that the Node has measured
+
+### Channels
+Communication links between nodes
 
 ## Libraries
 [C](https://github.com/gregjhansell97/hive-map-c/)  
