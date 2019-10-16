@@ -20,35 +20,31 @@ A **location** is an entity that represents a point in the hive-map space. Locat
 are connected to one another through **channels**. Channels are the means in which
 locations communicate. Locations publish messages to **destinations**. A destination 
 is another location in the hive-map space. A location subscribes callbacks to desired
-message types. 
+message types. INSERT DIAGRAM.
 
+**Locations with matching destinations can work together to get their updated states
+to that location**
 
+The user of the framework describes the communication channels, available locations,
+and types of messages. Hive-map handles routing published messages to destinations. 
 
-
-In a library, "room 3" (a location) is detecting a
-student in the room, so it periodically publishes an occupancy message to a library
-occupancy database (destination). 
-
-
-In the world of hive-map, a **node** is an entity sampling a location. The 
-**space** of a node is the dimensions measured. The **state** of a node
-is the current space values measured. For example, a node in "room 3" of the 
-library has a space of occupancy which can either measure "True" or "False". The 
-"room 3" node has a state of "True" because there is a student in the room. The 
-node's state becomes "False" when the student leaves. The "room 3" node needs to
-get the updated state to a location that can publish the information to a
-database. Neighboring nodes (in other rooms) have the same objective.
-**Nodes with matching goal locations can work together to get their updated 
-states to that location** 
-
-The user of the framework describes how individual nodes should behave: their
-space, location, goal location, communication means, and callbacks. Hive-Map 
-handles routing state changes to that goal location. The goal location can be 
-an intermediate node that propogates its state to other locations.
 
 ## Goal
 
 A library that performs distributed routing of states for a set of uniquely characterized nodes
+
+## Examples
+
+### Library Occupancy Detection
+
+The goal of library occupancy detection is to get occupancy information from rooms
+in the library to a database. Some locations are: *room 1*, *room 2* and 
+*occupancy database*. The messages being published are messages that describe 
+occupancy. A particular room publishes occupancy messages to the occupancy database. 
+The occupancy database (as a location) subscribes to occupancy messages. The user 
+describes the communication channels between locations, the available locations and 
+message types. Hive-map handles routing occupancy messages from rooms to the 
+occupancy database.
 
 ## Components
 
