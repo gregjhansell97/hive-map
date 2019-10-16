@@ -1,6 +1,6 @@
 # Hive-Map
 
-Distributed state communication library
+Communication Agnostic Distributed Pub-Sub Network
 
 ## Description
 
@@ -12,9 +12,23 @@ an empty study room, garbage being emptied on a monday morning. These changes
 often go unnoticed, but they are the key to solving many problems: what part of
 your engine broke? What rooms are available to study in? Did we miss the garbage
 truck? The goal of Hive-Map is to provide the framework needed to tackle these
-problems.
+problems in a distributed setting.
 
-**Hive-map gets changes in attribute information from one location to another.**
+**Hive-map gets messages about attribute information from one location to another.**
+
+A **location** is an entity that represents a point in the hive-map space. Locations
+are connected to one another through **channels**. Channels are the means in which
+locations communicate. Locations publish messages to **destinations**. A destination 
+is another location in the hive-map space. A location subscribes callbacks to desired
+message types. 
+
+
+
+
+In a library, "room 3" (a location) is detecting a
+student in the room, so it periodically publishes an occupancy message to a library
+occupancy database (destination). 
+
 
 In the world of hive-map, a **node** is an entity sampling a location. The 
 **space** of a node is the dimensions measured. The **state** of a node
