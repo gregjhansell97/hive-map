@@ -25,7 +25,7 @@ programming constructs.
 to those destinations.**
 
 The user of the framework describes the communication channels, available 
-locations, and types of messages. Hive-map handles routing published messages to 
+locations, and types of messages. Hive-map routes published messages to 
 destinations. 
 
 
@@ -40,7 +40,7 @@ locations to destinations.
 ### Message
 A message is a chunk of data that contains attributes. It is the content of the
 distributed communication network. There is more than one type of message. The 
-developer defines the messages appropriate for their map.
+developer defines message types appropriate for their map.
 
 #### Properties
 - A message is serializable
@@ -49,10 +49,10 @@ developer defines the messages appropriate for their map.
 - A message type has a fixed storage size
 
 ### Channel
-Messages are sent through channels. A channel is the medium the moves messages
-from one end-point to another. An end-point is a spot on the channel to read
-and write data. The developer defines the channels by defining read and write
-operations for each channel.
+Messages are sent through channels. A channel is the medium used to move 
+messages from one end-point to another. An end-point is a spot on the channel 
+to read and write data. The developer defines the channels by defining read 
+and write operations for each channel.
 
 #### Properties
 - Channel is comprised of 0 or more end-points
@@ -65,10 +65,10 @@ A point in the user defined map. Locations are where messages are published from
 and delivered to. Locations communicate to other locations through channels.
 Locations are used by developers to interact with the rest of the map. A 
 developer can create subscriptions to message types for a location. A developer 
-can get destinations to publish to from a location (described next).
+gets destination instances from a location.
 
 #### Properties
-- Every location can be represented uniquely by a number
+- Every location is represented uniquely by a number
 - Only one instance of a location exists at a time 
 - If a message is delivered to one subscribe then all subscribers receive 
 message
@@ -82,13 +82,12 @@ Destination is a location that is targeted to receive published messages.
 ### Library Occupancy Detection
 
 The goal of library occupancy detection is to get occupancy information from 
-rooms in the library to a database. Some locations are: *room 1*, *room 2* and 
-*occupancy database*. The messages being published are messages that describe 
-occupancy. A particular room publishes occupancy messages to the occupancy 
-database. The occupancy database (as a location) subscribes to occupancy 
-messages. The user describes the communication channels between locations, the 
-available locations and message types. Hive-map handles routing occupancy 
-messages from rooms to the occupancy database.
+rooms in the library to a database. The locations in this library are:
+*room 1*, *room 2* and *occupancy database*. The messages being published are
+*occupancy* messages. A particular room publishes *occupancy* messages 
+to the *occupancy database*. The *occupancy database* has subscribers to
+*occupancy* messages. The locations communicate through channels configured
+to write and read over radio.
 
 
 ## Libraries
