@@ -34,18 +34,6 @@ destinations.
 A framework to perform distributed routing of subscribable messages from 
 locations to destinations.
 
-## Examples
-
-### Library Occupancy Detection
-
-The goal of library occupancy detection is to get occupancy information from 
-rooms in the library to a database. Some locations are: *room 1*, *room 2* and 
-*occupancy database*. The messages being published are messages that describe 
-occupancy. A particular room publishes occupancy messages to the occupancy 
-database. The occupancy database (as a location) subscribes to occupancy 
-messages. The user describes the communication channels between locations, the 
-available locations and message types. Hive-map handles routing occupancy 
-messages from rooms to the occupancy database.
 
 ## Components
 
@@ -87,6 +75,21 @@ message
 
 ### Destination
 Destination is a location that is targeted to receive published messages.
+
+
+## Examples
+
+### Library Occupancy Detection
+
+The goal of library occupancy detection is to get occupancy information from 
+rooms in the library to a database. Some locations are: *room 1*, *room 2* and 
+*occupancy database*. The messages being published are messages that describe 
+occupancy. A particular room publishes occupancy messages to the occupancy 
+database. The occupancy database (as a location) subscribes to occupancy 
+messages. The user describes the communication channels between locations, the 
+available locations and message types. Hive-map handles routing occupancy 
+messages from rooms to the occupancy database.
+
 
 ## Libraries
 [C](https://github.com/gregjhansell97/hive-map-c/)  
