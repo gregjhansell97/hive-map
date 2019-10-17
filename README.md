@@ -49,31 +49,44 @@ messages from rooms to the occupancy database.
 
 ## Components
 
-### Node
-An entity sampling a location. A node has several attributes: location, goal 
-location, communication channels and a state. Location is the place the node 
-resides. Goal location is the place a node wishes to send all of it's state 
-changes to. A node sends a state change to a location, not another node. 
-Communication channels are used by a node to interact with other nodes. State is 
-the measurements of the node's space.
- 
-#### Assumptions
-- node locations are abstract
-- node's location is fixed or anonymous
-- node's goal location is fixed, anonymous or doesn't exist
-- nodes only communicate through channels
-- nodes in the same location have dependable FIFO channels of communication
-- nodes do not crash
-- new nodes can be introduced into the system
+### Message
+A message is a chunk of data that contains attributes. It is the content of the
+distributed communication network. There is more than one type of message. The 
+developer defines the messages appropriate for their map.
 
-### Space
-Dimensions used to measure a nodes surroundings
+#### Properties
+- A message is serializable
+- A message is immutable once published 
+- A message contains information about the type of message and publisher
+- A message type has a fixed storage size
 
-### State
-Specific values of the Space that the Node has measured
+### Channel
+Messages are sent through channels. A channel is the medium the moves messages
+from one end-point to another. An end-point is a spot on the channel to read
+and write data. The developer defines the channels by defining read and write
+operations for each channel.
 
-### Channels
-Communication links between nodes
+#### Properties
+- Channel is comprised of 0 or more end-points
+- A message sent from one end-point to another gets dropped with a certain 
+probability
+- Either the whole message makes it through to the end-point or none of it does
+
+### Location
+A point in the user defined map. Locations are where messages are published from 
+and delivered to. Locations communicate to other locations through channels.
+Locations are used by developers to interact with the rest of the map. A 
+developer can create subscriptions to message types for a location. A developer 
+can get destinations to publish to from a location (described next).
+
+#### Properties
+- Every location can be represented uniquely by a number
+- Only one instance of a location exists at a time 
+- If a message is delivered to one subscribe then all subscribers receive 
+message
+
+### Destination
+Destination is a location that is targeted to receive published messages.
 
 ## Libraries
 [C](https://github.com/gregjhansell97/hive-map-c/)  
