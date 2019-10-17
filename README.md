@@ -4,17 +4,24 @@ Communication Agnostic Distributed Pub-Sub Network
 
 ## Description
 
-*Hive-map provides a framework to facilitate message publishing between user defined 
-locations.*
+**Hive-map provides a framework to facilitate message publishing between user defined 
+locations.**
 
-A **location** is an entity that represents a point in the hive-map space. Locations
+A **location** is an entity that represents a point on a symbolic map. Locations
 are connected to one another through **channels**. Channels are the means in which
 locations communicate. Locations publish messages to **destinations**. A destination 
-is another location in the hive-map space. A location subscribes callbacks to desired
-message types. INSERT DIAGRAM.
+is another location on the symbolic map. A location has subscribers to various message 
+types.
 
-*Locations with matching destinations can work together to get their updated states
-to that location*
+![](docs/diagrams/node_interaction_01.png)
+
+In the diagram above, *L<sub>2</sub>* publishes a message to *L<sub>4</sub>*. Upon receiving 
+the message, *L<sub>4</sub>* will deliver the message to the appropriate subscribers; an
+appropriate subscriber subscribes to that message type. Subscribers are not part of the
+diagram: they are language dependent programming constructs.
+
+**Locations with matching destinations can work together to get their messages
+to those destinations.**
 
 The user of the framework describes the communication channels, available locations,
 and types of messages. Hive-map handles routing published messages to destinations. 
@@ -22,7 +29,7 @@ and types of messages. Hive-map handles routing published messages to destinatio
 
 ## Goal
 
-A library that performs distributed routing of states for a set of uniquely characterized nodes
+A framework to perform distributed routing of subscribable messages from locations to destinations.
 
 ## Examples
 
