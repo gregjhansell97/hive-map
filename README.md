@@ -4,17 +4,8 @@ Communication Agnostic Distributed Pub-Sub Network
 
 ## Description
 
-Locations have attributes. For example: various points on a car engine have 
-different temperatures; a room in the library is either occupied or unoccupied; 
-a garbage can on the side of the road has various trash levels. These
-attributes change over time: a car warming up on a cold day, a person entering
-an empty study room, garbage being emptied on a monday morning. These changes
-often go unnoticed, but they are the key to solving many problems: what part of
-your engine broke? What rooms are available to study in? Did we miss the garbage
-truck? The goal of Hive-Map is to provide the framework needed to tackle these
-problems in a distributed setting.
-
-**Hive-map gets messages about attribute information from one location to another.**
+*Hive-map provides a framework to facilitate message publishing between user defined 
+locations.*
 
 A **location** is an entity that represents a point in the hive-map space. Locations
 are connected to one another through **channels**. Channels are the means in which
@@ -22,8 +13,8 @@ locations communicate. Locations publish messages to **destinations**. A destina
 is another location in the hive-map space. A location subscribes callbacks to desired
 message types. INSERT DIAGRAM.
 
-**Locations with matching destinations can work together to get their updated states
-to that location**
+*Locations with matching destinations can work together to get their updated states
+to that location*
 
 The user of the framework describes the communication channels, available locations,
 and types of messages. Hive-map handles routing published messages to destinations. 
