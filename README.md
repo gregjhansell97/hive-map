@@ -11,19 +11,22 @@ A **location** is an entity that represents a point on a symbolic map. Locations
 are connected to one another through **networks**. Networks directly connect 
 locations together. Locations publish messages to 
 **destinations**. A destination is another location on the symbolic map. 
-A location has subscribers to various message types.
+A location has subscribers to various message types. The whole system 
+is event driven; the delivery of a message of a certain type is an event 
+in the system.
 
 ![](docs/diagrams/node_interaction_01.png)
 
 In the diagram above, *L<sub>2</sub>* publishes a message to *L<sub>4</sub>*. 
 Upon receiving the message, *L<sub>4</sub>* will deliver the message to the 
-subscribers interested in that message type. Subscribers are not part of the 
+subscribers at *L<sub>4</sub> that are interested in that message type. 
+Subscribers are not part of the 
 diagram: they are language dependent programming constructs.
 
-**Locations with matching destinations can work together to get their messages
+**Locations with matching publish destinations work together to get their messages
 to those destinations.**
 
-The user of the framework describes the networks end-points each node uses, 
+The developer describes the networks, the end-points each node uses, 
 the available locations, and types of messages. Hive-map routes published 
 messages to destinations. 
 
@@ -49,17 +52,17 @@ developer defines message types appropriate for their map.
 
 ### Network
 Messages are sent to locations through multicast user-defined networks. Each 
-end-point in a network is a spot to broadcast messages from other nodes and 
+end-point in a network is a spot to broadcast messages to other nodes and 
 deliver messages from other end-points. The developer defines the network
 end-point for each location. 
 
 #### Properties
-- Channel is comprised of 0 or more end-points
+- Comprised of 0 or more end-points
 - A message sent from one end-point to another gets dropped with a certain 
 probability
 - Either the whole message makes it through to the end-point or none of it does
-- If 10 bytes are broadcasted and only 5 bytes of that message is read, then the 
-rest of the message can be released
+- Delivery of a particular message is only called once; after which, the
+memory for the message can be erased
 
 ### Location
 A point in the user defined map. Locations are where messages are published from 
@@ -92,9 +95,8 @@ to broadcast and deliver over radio.
 
 
 ## Libraries
-[C](https://github.com/gregjhansell97/hive-map-c/)  
 
 [Python3](https://github.com/gregjhansell97/hive-map-python-3/)
 
-[Cpp](https://github.com/gregjhansell97/hive-map-cpp/)  
+[Embedded Cpp](https://github.com/gregjhansell97/hive-map-cpp/)  
   
