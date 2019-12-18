@@ -8,10 +8,10 @@ Communication Agnostic Distributed Pub-Sub Network
 locations.**
 
 A **location** is an abstract point that information can be published to.
-A **destination** represents the targeted location receiving published 
-information. Both location and destination instances use **sockets** to 
-communicate with other instances across a network. The system is event driven;
-the delivery of information to a location is the only event.
+A **destination** publishes information to a targeted location. Both location 
+and destination instances use **sockets** to communicate with other instances 
+across a network. The system is event driven; the delivery of information to 
+a location is the event.
 
 ![ ](docs/diagrams/node_interaction_01.png)
 
