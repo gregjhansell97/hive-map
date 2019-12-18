@@ -4,32 +4,30 @@ Communication Agnostic Distributed Pub-Sub Network
 
 ## Description
 
-**Hive-map provides a framework to facilitate message publishing between user 
-defined locations.**
+**Hive-map provides a framework to facilitate message publishing to user defined 
+locations.**
 
-A **location** is an entity that represents a point on a symbolic map. Locations
-are connected to one another through **networks**. Networks directly connect 
-locations together. Locations publish messages to 
-**destinations**. A destination is another location on the symbolic map. 
-A location has subscribers to various message types. The whole system 
-is event driven; the delivery of a message of a certain type is an event 
-in the system.
+A **location** is an abstract point that information can be published to.
+A **destination** represents the targeted location receiving published 
+information. Both location and destination instances use **sockets** to 
+communicate with other instances across a network. The system is event driven;
+the delivery of information to a location is the only event.
 
-![](docs/diagrams/node_interaction_01.png)
+![ ](docs/diagrams/node_interaction_01.png)
 
-In the diagram above, *L<sub>2</sub>* publishes a message to *L<sub>4</sub>*. 
-Upon receiving the message, *L<sub>4</sub>* will deliver the message to the 
-subscribers at *L<sub>4</sub> that are interested in that message type. 
-Subscribers are not part of the 
-diagram: they are language dependent programming constructs.
+In the diagram above, each node has either a location instance *L*
+or a destination instance *D*. The network is the connections between 
+the nodes. The green-node's destination instance cannot directly publish
+information to the blue-node's location instance. If the green-node's 
+destination instance publishes information then the yellow-node's 
+destination instance will pass that information along so that it can
+be delivered to the blue-node's location instance. 
 
-**Locations with matching publish destinations work together to get their messages
-to those destinations.**
+**Destinations with matching target locations work together to get their messages
+to that location.**
 
-The developer describes the networks, the end-points each node uses, 
-the available locations, and types of messages. Hive-map routes published 
-messages to destinations. 
-
+The developer defines the means of communication with sockets and the available
+locations. Hive-map delivers published information from destinations to locations.
 
 ## Goal
 
