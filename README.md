@@ -10,13 +10,13 @@ locations.**
 A **location** is an abstract point that information can be published to.
 A **destination** publishes information to a targeted location. Both location 
 and destination instances use **sockets** to communicate with other instances 
-across a network. The system is event driven; the delivery of information to 
-a location is the event.
+across a network. The system is event driven: the event is the delivery of information to 
+a location.
 
 ![ ](docs/diagrams/node_interaction_01.png)
 
-In the diagram above, each node has either a location instance *L*
-or a destination instance *D*. The network is the connections between 
+In the diagram above, each node has a location instance *L* or a 
+destination instance *D*. The network is the connections between 
 the nodes. The green-node's destination instance cannot directly publish
 information to the blue-node's location instance. If the green-node's 
 destination instance publishes information then the yellow-node's 
@@ -31,70 +31,45 @@ locations. Hive-map delivers published information from destinations to location
 
 ## Goal
 
-A framework to perform distributed routing of subscribable messages from 
-locations to destinations.
-
+A framework to perform distributed routing of published information from
+destinations to locations.
 
 ## Components
 
-### Message
-A message is a chunk of data that contains attributes. It is the content of the
-distributed communication network. There is more than one type of message. The 
-developer defines message types appropriate for their map.
-
-#### Properties
-- A message is serializable
-- A message is immutable once published 
-- A message contains information about the type of message and publisher
-- A message type has a fixed storage size that can be known ahead of time
-
-### Network
-Messages are sent to locations through multicast user-defined networks. Each 
-end-point in a network is a spot to broadcast messages to other nodes and 
-deliver messages from other end-points. The developer defines the network
-end-point for each location. 
-
-#### Properties
-- Comprised of 0 or more end-points
-- A message sent from one end-point to another gets dropped with a certain 
-probability
-- Either the whole message makes it through to the end-point or none of it does
-- Delivery of a particular message is only called once; after which, the
-memory for the message can be erased
-
 ### Location
-A point in the user defined map. Locations are where messages are published from 
-and delivered to. Locations communicate to other locations through network 
-endpoints. Locations are used by developers to interact with the rest of the 
-map. A developer can create subscriptions to message types for a location. A 
-developer gets destination instances from a location.
-
-#### Properties
-- Every location is represented uniquely by a number
-- Only one instance of a location exists at a time 
-- If a message is delivered to one subscriber then all subscribers receive 
-message
+A location is an abstract point that information can be published to. A location has
+subscribers; these subscribers receive information that is published
+to the location. A location is identified by a unique identifier.
+If there exists two location instances with the same unique identifier then
+any particular publish will likely be delivered to only one of the location
+instances.
 
 ### Destination
-Destination is a location that is targeted to receive published messages.
+A destination represents an interest in a location. A destination can publish
+information to the location of interest. Destinations with the same location interest 
+will help get the published information to the location.
 
+### Socket
+Locations and destinations use sockets to communicate with one another across a network.
+The actual communication implementation is developer defined and follows the
+language-specific interface.
 
 ## Examples
 
 ### Library Occupancy Detection
 
 The goal of library occupancy detection is to get occupancy information from 
-rooms in the library to a database. The locations in this library are:
-*room 1*, *room 2* and *occupancy database*. The messages being published are
-*occupancy* messages. A particular room publishes *occupancy* messages 
-to the *occupancy database*. The *occupancy database* has subscribers to
-*occupancy* messages. The locations communicate through one network configured
-to broadcast and deliver over radio.
+rooms in the library to a database. The only location in the system is
+the *occupancy database*.  Each room is an independent node that can collect
+occupancy information. Every room node has a destination of the 
+*occupany database* that they publish occupancy information to. The location and
+destinations use radio-communication sockets to get published information from each
+destination to the *occupancy database* location.
 
 
 ## Libraries
 
-[Python3](https://github.com/gregjhansell97/hive-map-python-3/)
+[Python3 (up-to-date)](https://github.com/gregjhansell97/hive-map-python-3/)
 
-[Embedded Cpp](https://github.com/gregjhansell97/hive-map-cpp/)  
+[Embedded Cpp (not-up-to-date)](https://github.com/gregjhansell97/hive-map-cpp/)  
   
