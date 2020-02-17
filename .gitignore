@@ -50,3 +50,6 @@ MANIFEST
 
 #Vim editor
 *.swp
+
+# hidden files
+/papers
