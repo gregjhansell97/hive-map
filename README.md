@@ -6,16 +6,23 @@ Modular Pub-Sub System
 
 ### Background
 
-The power of the publisher-subscriber model comes from decoupling the producers of information from the consumers. There are four main pub-sub components: events, subscriptions, publishers and subscribers.
+The power of the publisher-subscriber model comes from decoupling the producers of information from the consumers. In any pub-sub architecture, there are four main components: events, subscriptions, publishers and subscribers.
 
 |Component| Description|
 |------------|----------|
 |Event       | piece of information that happened in the system|
-|Subscription| expresses interest in a subset of possible events|
-|Publisher   | publish events|
+|Subscription| expressed interest in a subset of possible events|
+|Publisher   | publishes events|
 |Subscriber  | notified of published events that match its subscription|
 
-MOVING ON
+The figure below [1] shows the typical interaction in any pub-sub system. The symbol *e* is an event. The symbol &#963; is a subscription. The node *P* is a publisher. The node *S* is a subscriber.
+
+INSERT FIGURE
+
+Imagine a scenario about weather. In this system, events are descriptions of weather in certain locations: "It's sunny in LA" or "It's rainy in Boston". Subscriptions would express interest in these locations: "I'm interested in LA's weather". A subscriber could use a subscription to be notified about certain weather events. 
+
+The important detail, in the weather example, is that subscribers are completely decoupled from publishers. A subscriber wants to be notified about events that match its subscription; it is indifferent to the source of the event. A publisher publishes events; it is indifferent to the subscribers that receive the event. A decoupled system allows publishers and subscribers to scale independently: there can be a million subscribers, and the behavior of a publisher does not change.   
+
 
 ## Libraries
 
@@ -27,3 +34,4 @@ MOVING ON
 Greg Hansell: gregjhansell@gmail.com
 
 ## Citations
+[1] pub-sub paper
