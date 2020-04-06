@@ -36,11 +36,19 @@ The overlay infrastructure is an application level network responsible for the c
 
 ## Components
 
+Discuss overview about the components offered by hivemap and the "buckets" they fall under: matching, routing, or communicators. Show diagram for matching, routing and communicators all using context and explain context
+
 ### Matching
+
+discuss components: matching-algorithm, event, subscription, subscriptions and their responsibilities
 
 ### Routing
 
-### Communication
+discuss components: router and glob-router and their responsibilities
+
+### Communicators
+
+discuss components: transceivers, nodes, client-servers and mention that there could be more or revised
 
 ## Libraries
 
