@@ -40,7 +40,7 @@ The components described above are the interface to any pub-sub problem, but mor
 
 ## Libraries
 
-[Python3 (up-to-date)](https://github.com/gregjhansell97/hive-map-python-3/)
+[Python3 (not-up-to-date)](https://github.com/gregjhansell97/hive-map-python-3/)
 
 [Embedded Cpp (not-up-to-date)](https://github.com/gregjhansell97/hive-map-cpp/)
 
