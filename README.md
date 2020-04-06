@@ -32,7 +32,7 @@ The components described above are the interface to any pub-sub problem, but mor
 
 ![ ](docs/images/pub-sub-architecture-stack.png)
 
-The overlay infrastructure is an application level network responsible for the connections between participants. The event routing layer is responsible for getting published events to all interested subscribers, it leverages the overlay infrastructure to get events to appropriate subscriptions. The matching layer determines if a subscription is interested in an event.  
+The overlay infrastructure is an application level network responsible for the connections between participants. The event routing layer is responsible for getting published events to all interested subscribers; it leverages the overlay infrastructure to get events to appropriate subscriptions. The matching layer determines if a subscription is interested in an event.
 
 ## Components
 
@@ -63,4 +63,7 @@ Need to find more pubsub systems and discuss them
 Greg Hansell: gregjhansell@gmail.com
 
 ## Citations
-[1] pub-sub paper
+[1] distributed-event-routing paper
+[2] event-systems-survey paper
+[3] many-pub-sub-faces paper
+[4] striving-for-versatility paper
