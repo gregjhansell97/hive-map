@@ -7,7 +7,7 @@ The [pub-sub pattern](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pa
 
 ## Background
 
-### pub-sub paradigm
+### Pub-Sub Pattern
 
 The power of the publisher-subscriber model comes from decoupling the producers of information from the consumers. In any pub-sub architecture, there are four main components: events, subscriptions, publishers and subscribers.
 
@@ -28,7 +28,7 @@ The important detail, in the weather example, is that subscribers are completely
 
 ### Abstraction
 
-TODO EXPLAIN DIFFERENT LAYERS FOR A GENERAL PUBSUB ALGORITHM
+The components described above are the interface to any pub-sub problem, but more machinery can be abstracted. The survey paper[citation] breaks up the machinery into a (stack)[https://en.wikipedia.org/wiki/Solution_stack]: matching, event routing, overlay infrastructure and the network.  
 
 ## Components
 
