@@ -3,7 +3,7 @@
 Modular Pub-Sub Framework
 
 ## Introduction
-The [pub-sub pattern](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) is generic, but it is used to tackle specific problems. These problems have specific requirements and contexts. There is no one-size-fits-all implementation. For example, pub-sub systems that use [mobile-adhoc-networks](https://en.wikipedia.org/wiki/Wireless_ad_hoc_network) will have a different implementations than pub-sub systems that use the [internet](https://en.wikipedia.org/wiki/Internet). Past approaches tackle a subset of pub-sub problems and put them into a framework [TODO ADD CITATIONS]. Hive-Map takes a different approach. The Hive-Map framework abstracts the pub-sub pattern enough to encopass the full problem set. This abstraction allows Hive-Map components to be reimplemented, tested, benchmarked and shared easily. The framework user picks the modules that best suits their problem.        
+The [pub-sub pattern](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) is generic, but it is used to tackle specific problems. These problems have specific requirements and contexts. There is no one-size-fits-all implementation. For example, pub-sub systems that use [mobile-adhoc-networks](https://en.wikipedia.org/wiki/Wireless_ad_hoc_network) will have a different implementations than pub-sub systems that use the [internet](https://en.wikipedia.org/wiki/Internet). Past approaches tackle a subset of pub-sub problems and put them into a framework [1]. Hive-Map takes a different approach. The Hive-Map framework abstracts the pub-sub pattern enough to encopass the full problem set. This abstraction allows Hive-Map components to be reimplemented, tested, benchmarked and shared easily. The framework user picks the modules that best suits their problem.        
 
 ## Background
 
@@ -28,7 +28,11 @@ The important detail, in the weather example, is that subscribers are completely
 
 ### Abstraction
 
-The components described above are the interface to any pub-sub problem, but more machinery can be abstracted. The survey paper[citation] breaks up the machinery into a [stack](https://en.wikipedia.org/wiki/Solution_stack): matching, event routing, overlay infrastructure and the network.  
+The components described above are the interface to any pub-sub problem, but more machinery can be abstracted. The pub-sub survey paper by Roberto Baldoni offers a [stack-based](https://en.wikipedia.org/wiki/Solution_stack) architecture [1]. The layers in the stack are illustrated below. 
+
+![ ](docs/images/pub-sub-architecture-stack.png)
+
+The overlay infrastructure is an application level network responsible for the connections between participants. The event routing layer is responsible for getting published events to all interested subscribers, it leverages the overlay infrastructure to get events to appropriate subscriptions. The matching layer determines if a subscription is interested in an event.  
 
 ## Components
 
