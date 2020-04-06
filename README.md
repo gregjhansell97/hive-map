@@ -28,7 +28,7 @@ The important detail, in the weather example, is that subscribers are completely
 
 ### Abstraction
 
-The components described above are the interface to any pub-sub problem, but more machinery can be abstracted. The survey paper[citation] breaks up the machinery into a (stack)[https://en.wikipedia.org/wiki/Solution_stack]: matching, event routing, overlay infrastructure and the network.  
+The components described above are the interface to any pub-sub problem, but more machinery can be abstracted. The survey paper[citation] breaks up the machinery into a [stack](https://en.wikipedia.org/wiki/Solution_stack): matching, event routing, overlay infrastructure and the network.  
 
 ## Components
 
