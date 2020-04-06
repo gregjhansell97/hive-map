@@ -63,7 +63,11 @@ Need to find more pubsub systems and discuss them
 Greg Hansell: gregjhansell@gmail.com
 
 ## Citations
+
 [1] distributed-event-routing paper
+
 [2] event-systems-survey paper
+
 [3] many-pub-sub-faces paper
+
 [4] striving-for-versatility paper
