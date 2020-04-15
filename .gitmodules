@@ -1,6 +1,6 @@
 [submodule "hive-map-python-3"]
 	path = hive-map-python-3
 	url = https://github.com/gregjhansell97/hive-map-python-3.git
-[submodule "hive-map-embedded-cpp"]
-	path = hive-map-embedded-cpp
-	url = https://github.com/gregjhansell97/hive-map-embedded-cpp.git
+[submodule "hive-map-std"]
+	path = hive-map-std
+	url = https://github.com/gregjhansell97/hive-map-std.git
